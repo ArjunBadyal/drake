@@ -1,0 +1,108 @@
+# -*- python -*-
+# This file contains rules for Bazel; see drake/doc/bazel.rst.
+
+package(default_visibility = ["//visibility:public"])
+
+load(
+    "@drake//tools/skylark:drake_cc.bzl",
+    "drake_cc_binary",
+    "drake_cc_googletest",
+    "drake_cc_library",
+)
+load("//tools/install:install_data.bzl", "install_data")
+load(
+    "@drake//tools/vector_gen:vector_gen.bzl",
+    "drake_cc_vector_gen_library",
+)
+load("//tools/lint:lint.bzl", "add_lint_tests")
+
+
+drake_cc_library(
+    name = "QueryObject",
+    srcs = ["QueryObject.cc",],
+    hdrs = ["QueryObject.h",],
+    deps = [
+        "//common:unused",
+        "//systems/framework",
+    ],
+)
+
+drake_cc_binary(
+    name = "SimpleArm",
+    srcs = ["SimpleArm.cc"],
+    add_test_rule = 1,
+    data = ["SimpleArm.sdf", "brick.sdf"],
+   # test_rule_args = [
+     #   "--simulation_time=0.1",
+      #  "--target_realtime_rate=0.0",],
+    deps = [
+        #":dmodel",
+        "//common:essential",
+        "//lcmtypes:drake_signal",
+        ":PlatformMapping",
+        ":QueryObject",
+        ":SimpleLCM",
+        "//common:add_text_logging_gflags",
+        "//common:find_resource",
+        "//geometry:drake_visualizer",
+        "//multibody/parsing",
+        "//multibody/plant",
+        "//multibody/tree",
+        "//systems/analysis:simulator",
+        "//systems/framework",
+        "//systems/primitives:constant_vector_source",
+        "//systems/primitives:trajectory_source",
+        "//systems/controllers:inverse_dynamics_controller",
+        "//systems/controllers:inverse_dynamics",
+        "//systems/sensors:beam_model",
+
+        "@gflags",
+    ],
+)
+
+drake_cc_binary(
+    name = "dmodel",
+    srcs = ["dmodel.cc"],
+    add_test_rule = 1,
+    deps = [
+            #":dmodel",
+            ":PlatformMapping",
+            "//common:add_text_logging_gflags",
+            "//common:find_resource",
+            "//geometry:drake_visualizer",
+            "//multibody/parsing",
+            "//multibody/plant",
+            "//systems/analysis:simulator",
+            "//systems/framework:diagram",
+            "//systems/primitives:constant_vector_source",
+            "@gflags",
+        ],
+)
+
+drake_cc_library(
+    name = "PlatformMapping",
+    srcs = ["PlatformMapping.cc"],
+    hdrs = ["PlatformMapping.h"],
+    visibility = ["//visibility:public"],
+    deps = ["//systems/framework:context"]
+)
+
+
+
+drake_cc_library(
+    name = "SimpleLCM",
+    srcs = ["SimpleLCM.cc"],
+    hdrs = ["SimpleLCM.h"],
+    deps = ["//common:essential",
+            "//lcmtypes:drake_signal",
+            "//lcm:drake_lcm",
+             "//common:find_resource",
+
+        ],
+    visibility = ["//visibility:public"],
+)
+
+
+install_data()
+
+add_lint_tests()
