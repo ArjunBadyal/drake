@@ -18,14 +18,26 @@ load("//tools/lint:lint.bzl", "add_lint_tests")
 
 
 drake_cc_library(
-    name = "QueryObject",
-    srcs = ["QueryObject.cc",],
-    hdrs = ["QueryObject.h",],
+    name = "QuerySensor",
+    srcs = ["QuerySensor.cc",],
+    hdrs = ["QuerySensor.h",],
+    deps = [
+        "//common:unused",
+        "//systems/framework",
+        "//geometry:scene_graph"
+    ],
+)
+drake_cc_library(
+    name = "PlatformMappinHandler",
+    srcs = ["PlatformMappingHandler.cc",],
+    hdrs = ["PlatformMappingHandler.h",],
     deps = [
         "//common:unused",
         "//systems/framework",
     ],
 )
+
+
 
 drake_cc_binary(
     name = "SimpleArm",
@@ -40,7 +52,7 @@ drake_cc_binary(
         "//common:essential",
         "//lcmtypes:drake_signal",
         ":PlatformMapping",
-        ":QueryObject",
+        ":QuerySensor",
         ":SimpleLCM",
         "//common:add_text_logging_gflags",
         "//common:find_resource",
@@ -54,7 +66,6 @@ drake_cc_binary(
         "//systems/primitives:trajectory_source",
         "//systems/controllers:inverse_dynamics_controller",
         "//systems/controllers:inverse_dynamics",
-        "//systems/sensors:beam_model",
 
         "@gflags",
     ],
@@ -67,6 +78,7 @@ drake_cc_binary(
     deps = [
             #":dmodel",
             ":PlatformMapping",
+            ":populate_ball_plant",
             "//common:add_text_logging_gflags",
             "//common:find_resource",
             "//geometry:drake_visualizer",
@@ -81,11 +93,12 @@ drake_cc_binary(
 
 drake_cc_library(
     name = "PlatformMapping",
-    srcs = ["PlatformMapping.cc"],
+    srcs = ["PlatformMapping.c"],
     hdrs = ["PlatformMapping.h"],
     visibility = ["//visibility:public"],
     deps = ["//systems/framework:context"]
 )
+
 
 
 

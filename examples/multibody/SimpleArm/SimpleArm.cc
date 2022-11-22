@@ -5,8 +5,6 @@
 
 #include <iostream>
 
-#include "drake/systems/sensors/beam_model.h"
-
 
 #include "drake/common/drake_copyable.h"
 #include "drake/common/eigen_types.h"
@@ -25,10 +23,10 @@
 #include "drake/systems/framework/leaf_system.h"
 #include "drake/systems/primitives/constant_vector_source.h"
 #include "drake/systems/primitives/trajectory_source.h"
+
 #include "drake/examples/multibody/SimpleArm/PlatformMapping.h"
 #include "drake/examples/multibody/SimpleArm/SimpleLCM.h"
-#include "drake/examples/multibody/SimpleArm/QueryObject.h"
-
+#include "drake/examples/multibody/SimpleArm/QuerySensor.h"
 
 //#include "drake/systems/controllers/inverse_dynamics_controller.h"
 #include "drake/systems/controllers/inverse_dynamics.h"
@@ -42,6 +40,7 @@
 
 namespace drake {
     using Eigen::Vector2d;
+
   //  using Message = lcmt_drake_signal;
     using multibody::BodyIndex;
     using multibody::ForceElementIndex;
@@ -60,7 +59,7 @@ namespace drake {
 namespace examples {
 namespace multibody {
 namespace SimpleArm {
-namespace {
+
 
 using geometry::SceneGraph;
 
@@ -74,6 +73,9 @@ std::string input;
 double t0 = 0;
 double t1 = 0;
 bool LoopCond = true;
+
+
+
 
 DEFINE_double(target_realtime_rate, 0.05,
               "Desired rate relative to real time.  See documentation for "
@@ -201,13 +203,13 @@ DEFINE_double(time_step, 0,
         Eigen::Vector2d command;
 
         if(input == "PrePick") {
-            command << Operation.PrePick(context.get_time() - t0), 0;
+            command << PrePick(context.get_time() - t0), 0;
         }
         else if(input == "PrePlace"){
-            command << Operation.PrePlace(context.get_time() - t0), 0;
+            command << PrePlace(context.get_time() - t0), 0;
         }
         else if(input == "Return") {
-            command << Operation.Ret(context.get_time() - t0), 0;
+            command << Ret(context.get_time() - t0), 0;
         }
         //drake::log()->info(context.get_time() - t0);
         output->segment(0, 2) = command;
@@ -236,11 +238,10 @@ int do_main() {
   SceneGraph<double>& scene_graph = *builder.AddSystem<SceneGraph>(); //add scene graph to builder
   scene_graph.set_name("scene_graph");
 
-/*const double kDepthInput = 3.0;
-const double kMaxRange = 5.0;
-auto beam_model = builder.AddSystem<systems::sensors::BeamModel>(1, kMaxRange);*/
 
-  auto QuerySystem = builder.AddSystem<QueryObject>();
+
+
+  auto QuerySystem = builder.AddSystem<QuerySensor>();
 
 
   // Make and add the SimpleArm model.
@@ -281,7 +282,7 @@ auto beam_model = builder.AddSystem<systems::sensors::BeamModel>(1, kMaxRange);*
 
             const Vector3<double> g(0,0,0);
 
-            SimpleArm.mutable_gravity_field().set_gravity_vector(g);
+           SimpleArm.mutable_gravity_field().set_gravity_vector(g);
   // Now the model is complete.
   SimpleArm.Finalize();
   // Sanity check on the availability of the optional source id before using it.
@@ -301,8 +302,6 @@ auto beam_model = builder.AddSystem<systems::sensors::BeamModel>(1, kMaxRange);*
 
             //TODO
             //drake::log()->info(Vel->get_output_port()); //doesn't work for output logging...
-
-
 
 
 //TODO Come back to implementing trajectory leaf system using  https://github.com/RussTedrake/manipulation/blob/008cec6343dd39063705287e6664a3fee71a43b8/pose.ipynb
@@ -343,7 +342,7 @@ builder.Connect(Traj.get_output_port(),SimpleArm.get_input_port(3));*/
   geometry::DrakeVisualizerd::AddToBuilder(&builder, scene_graph);
 
   //Connect Scene graph to QuerySystem
-  builder.Connect(scene_graph.get_query_output_port(), QuerySystem->get_depth_input_port());
+  builder.Connect(scene_graph.get_query_output_port(), QuerySystem->query_sensor_input_port());
 
 
 
@@ -358,7 +357,7 @@ builder.Connect(Traj.get_output_port(),SimpleArm.get_input_port(3));*/
   systems::Context<double>& SimpleArm_context = diagram->GetMutableSubsystemContext(SimpleArm, diagram_context.get());
 
   /*const systems::Context<double>& scene_context = scene_graph.GetMyContextFromRoot(*diagram_context);
-  geometry::QueryObject<double> queryObject;
+  geometry::QuerySensor<double> queryObject;
   const auto& q_obj = scene_graph.get_query_output_port().Eval(scene_context);*/
 
   //drake::log()->info(query_object);
@@ -428,7 +427,7 @@ builder.Connect(Traj.get_output_port(),SimpleArm.get_input_port(3));*/
   return 0;
 }
 
-}  // namespace
+ // namespace
 }  // namespace SimpleArm
 }  // namespace multibody
 }  // namespace examples
