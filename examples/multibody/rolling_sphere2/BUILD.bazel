@@ -29,8 +29,8 @@ drake_cc_library(
 )
 
 drake_cc_binary(
-    name = "rolling_sphere_run_dynamics",
-    srcs = ["rolling_sphere_run_dynamics.cc"],
+    name = "rolling_sphere2_run_dynamics",
+    srcs = ["rolling_sphere2_run_dynamics.cc"],
 
     deps = [
         ":populate_ball_plant",

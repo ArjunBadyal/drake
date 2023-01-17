@@ -31,13 +31,21 @@ public:
     }
 
 };*/
-double Operation(char cmd[], double t);
+double Operation(double Objectdistance, double Goaldistance,  double t);
 
 double PrePick(double t);
 
 double PrePlace(double t);
 
 double Ret(double t);
+
+char * Event1(double Objectdistance);
+
+char * Event2(double Goaldistance);
+
+char * dmodel(char * event1 ,char * event2, double t);
+
+
 
 
 /*class OperationSystem : public drake::systems::LeafSystem<double>
@@ -47,5 +55,5 @@ double Ret(double t);
 
 //Operation Operation;
 #ifdef __cplusplus
-}
+    }
 #endif

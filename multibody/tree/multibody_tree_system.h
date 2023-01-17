@@ -451,8 +451,11 @@ class MultibodyTreeSystem : public systems::LeafSystem<T> {
   // we are in continuous or discrete mode.
   void CalcForwardDynamics(const systems::Context<T>& context,
                            AccelerationKinematicsCache<T>* ac) const {
-    if (is_discrete())
+    if (is_discrete()) {
+      //printf("discrete");
       CalcForwardDynamicsDiscrete(context, ac);
+    }
+
     else
       CalcForwardDynamicsContinuous(context, ac);
   }

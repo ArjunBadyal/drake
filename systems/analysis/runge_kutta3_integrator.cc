@@ -42,6 +42,7 @@ void RungeKutta3Integrator<T>::DoInitialize() {
 
 template <class T>
 bool RungeKutta3Integrator<T>::DoStep(const T& h) {
+  drake::log()->info(h);
   using std::abs;
   Context<T>& context = *this->get_mutable_context();
   const T t0 = context.get_time();
@@ -104,7 +105,6 @@ bool RungeKutta3Integrator<T>::DoStep(const T& h) {
 
   const VectorBase<T>& xcdot_b =  // xcdot⁽ᵇ⁾
       this->EvalTimeDerivatives(context).get_vector();
-
   // Cache: xcdot_b references the live derivative cache value, currently
   // up to date but about to be marked out of date. We do not want to make
   // an unnecessary copy of this data.

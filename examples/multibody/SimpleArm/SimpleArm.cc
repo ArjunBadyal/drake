@@ -21,12 +21,12 @@
 #include "drake/systems/framework/single_output_vector_source.h"
 #include "drake/systems/framework/diagram_builder.h"
 #include "drake/systems/framework/leaf_system.h"
-#include "drake/systems/primitives/constant_vector_source.h"
-#include "drake/systems/primitives/trajectory_source.h"
+//#include "drake/systems/primitives/constant_vector_source.h"
+//#include "drake/systems/primitives/trajectory_source.h"
 
-#include "drake/examples/multibody/SimpleArm/PlatformMapping.h"
-#include "drake/examples/multibody/SimpleArm/SimpleLCM.h"
-#include "drake/examples/multibody/SimpleArm/QuerySensor.h"
+//#include "drake/examples/multibody/SimpleArm/SimpleLCM.h"
+#include "drake/examples/multibody/SimpleArm/ObjectSensor.h"
+#include "PlatformMappingHandler.h"
 
 //#include "drake/systems/controllers/inverse_dynamics_controller.h"
 #include "drake/systems/controllers/inverse_dynamics.h"
@@ -77,17 +77,23 @@ bool LoopCond = true;
 
 
 
-DEFINE_double(target_realtime_rate, 0.05,
+DEFINE_double(target_realtime_rate, 0.1,
               "Desired rate relative to real time.  See documentation for "
               "Simulator::set_target_realtime_rate() for details.");
 
 DEFINE_double(simulation_time,5,
               "Desired duration of the simulation in seconds.");
 
-DEFINE_double(time_step, 0,
+DEFINE_double(time_step, 0.0001,
             "If greater than zero, the plant is modeled as a system with "
             "discrete updates and period equal to this time_step. "
             "If 0, the plant is modeled as a continuous system.");
+
+/*DEFINE_double(penetration_allowance, 1.0e-2,
+              "Penetration allowance. [m]. "
+              "See MultibodyPlant::set_penetration_allowance().");*/
+
+
 
         /*class VelCmd: public LeafSystem<double>{
 
@@ -169,7 +175,10 @@ DEFINE_double(time_step, 0,
             output ->get_mutable_value() = other;
 
         }*/
-    class SingleOutputVectorSource : public LeafSystem<double>
+/*
+  */
+/*
+ class SingleOutputVectorSource : public LeafSystem<double>
     {
 
     };
@@ -201,7 +210,7 @@ DEFINE_double(time_step, 0,
     VelCmd<T>::DoCalcVectorOutput(const Context<T> &context, Eigen::VectorBlock<VectorX<T>>* output) const  {
 
         Eigen::Vector2d command;
-
+        command << Operation(context.get_time() - t0), 0;
         if(input == "PrePick") {
             command << PrePick(context.get_time() - t0), 0;
         }
@@ -217,14 +226,10 @@ DEFINE_double(time_step, 0,
 
     template class VelCmd<double>;
 
-
-        /* void SetPidGains(VectorX<double>* kp, VectorX<double>* ki,
-                         VectorX<double>* kd) {
-            *kp << 1, 2, 3, 4, 5, 6, 7;
-            *ki << 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7;
-            *kd = *kp / 2.;
-        };
 */
+
+
+
 int do_main() {
 
     //add scene graph system to builder
@@ -241,7 +246,9 @@ int do_main() {
 
 
 
-  auto QuerySystem = builder.AddSystem<QuerySensor>();
+  auto ObjectSensorSystem = builder.AddSystem<ObjectSensor>();
+
+  auto PMHSystem = builder.AddSystem<PMH>();
 
 
   // Make and add the SimpleArm model.
@@ -250,15 +257,18 @@ int do_main() {
 
   const std::string body2 = FindResourceOrThrow(
           "drake/examples/multibody/SimpleArm/brick.sdf");
+  const std::string body3 = FindResourceOrThrow(
+      "drake/examples/multibody/SimpleArm/brick2.sdf");
 
   Parser(&SimpleArm, &scene_graph).AddModelFromFile(body1); //adds model to the scene graph and the multibody plant from SDF file
   Parser(&SimpleArm, &scene_graph).AddModelFromFile(body2);
+  Parser(&SimpleArm, &scene_graph).AddModelFromFile(body3);
 
     //Assign joint model instances to variables for ease of access
     const RevoluteJoint<double>& ElbowJoint =
-            SimpleArm.GetJointByName<RevoluteJoint>("4-ElbowJoint");
+            SimpleArm.GetJointByName<RevoluteJoint>("7-ElbowJoint");
     const RevoluteJoint<double>& WristJoint =
-            SimpleArm.GetJointByName<RevoluteJoint>("5-WristJoint");
+            SimpleArm.GetJointByName<RevoluteJoint>("6-WristJoint");
 
     // Add model of the ground.
     const double static_friction = 1.0;
@@ -270,9 +280,9 @@ int do_main() {
     // For a time-stepping model only static friction is used.
     const drake::multibody::CoulombFriction<double> ground_friction(static_friction,
                                                              static_friction);
-    SimpleArm.RegisterCollisionGeometry(SimpleArm.world_body(), math::RigidTransformd(),
+    /*SimpleArm.RegisterCollisionGeometry(SimpleArm.world_body(), math::RigidTransformd(),
                                     geometry::HalfSpace(),
-                                    "GroundCollisionGeometry", ground_friction);
+                                    "GroundCollisionGeometry", ground_friction);*/
 
    //Weld base to world frame
    const auto& root_link = SimpleArm.GetBodyByName("1-BaseLink");
@@ -285,50 +295,17 @@ int do_main() {
            SimpleArm.mutable_gravity_field().set_gravity_vector(g);
   // Now the model is complete.
   SimpleArm.Finalize();
+ // SimpleArm.set_penetration_allowance(FLAGS_penetration_allowance);
   // Sanity check on the availability of the optional source id before using it.
   DRAKE_DEMAND(SimpleArm.geometry_source_is_registered());
 
-//TODO Inverse dynamics
-            //VectorX<double> kp,ki,kd;
-            //SetPidGains(&kp, &ki, &kd);
-            //auto InDyn = builder.AddSystem<systems::controllers::InverseDynamics<double>>(&SimpleArm,systems::controllers::InverseDynamics<double>::kInverseDynamics);
-            //auto Vel = builder.AddSystem<VelCmd>(&SimpleArm);
-            auto Vel = builder.AddSystem<VelCmd<double>>();
+//drake::log()->info(SimpleArm.get_actuation_input_port().size());
+            /*auto Vel = builder.AddSystem<VelCmd<double>>();
             Vel->set_name("input trajectory");
 //builder.Connect(SimpleArm.get_output_port(0), InDyn->get_input_port_estimated_state());
-            builder.Connect(Vel->get_output_port(),SimpleArm.get_input_port(3)); //Works! ^_^
+            builder.Connect(Vel->get_output_port(),SimpleArm.get_input_port(3)); //Works! ^_^*/
 
-
-
-            //TODO
-            //drake::log()->info(Vel->get_output_port()); //doesn't work for output logging...
-
-
-//TODO Come back to implementing trajectory leaf system using  https://github.com/RussTedrake/manipulation/blob/008cec6343dd39063705287e6664a3fee71a43b8/pose.ipynb
-//and take input from platform mapping and output to inverse dynamics controller
-
-
-
-// Construct the PiecewisePolynomial.
-/*  Polynomial<double> PM(Eigen::Vector4d (1,2,3,4));
-    drake::log()->info(PM);
-    const std::vector<double> breaks = { 0.0, 5.0 };
-    Polynomiald t("t");
-    std::vector<Polynomiald> polynomials = { PM };
-    const trajectories::PiecewisePolynomial<double> pp(polynomials, breaks);
-// Evaluate the PiecewisePolynomial at some values.
-    std::cout << pp.scalarValue(0.0) << std::endl;    // Outputs -1.0
-    std::cout << pp.scalarValue(5.0) << std::endl;     // Outputs 1.0
-
-    std::cout<<WristJoint.index() <<std::endl;
-    Eigen::Vector2d v2;
-    v2 << 0,pp;
-systems::TrajectorySource<double>& Traj = *builder.AddSystem<systems::TrajectorySource>(v2);
-
-builder.Connect(Traj.get_output_port(),SimpleArm.get_input_port(3));*/
-
-
-
+  builder.Connect(PMHSystem -> get_output_port(), SimpleArm.get_input_port(3));
 
   //Now connect input port from the multibody plant to output port of the scene graph
   builder.Connect(
@@ -341,8 +318,10 @@ builder.Connect(Traj.get_output_port(),SimpleArm.get_input_port(3));*/
     // adds visualizer to builder and connects it the output of the scene graph
   geometry::DrakeVisualizerd::AddToBuilder(&builder, scene_graph);
 
-  //Connect Scene graph to QuerySystem
-  builder.Connect(scene_graph.get_query_output_port(), QuerySystem->query_sensor_input_port());
+  //Connect Scene graph to ObjectSensorSystem
+  builder.Connect(scene_graph.get_query_output_port(), ObjectSensorSystem->object_sensor_input_port());
+
+  builder.Connect(ObjectSensorSystem ->get_output_port(), PMHSystem->get_input_port());
 
 
 
@@ -356,35 +335,11 @@ builder.Connect(Traj.get_output_port(),SimpleArm.get_input_port(3));*/
   diagram->SetDefaultContext(diagram_context.get());
   systems::Context<double>& SimpleArm_context = diagram->GetMutableSubsystemContext(SimpleArm, diagram_context.get());
 
-  /*const systems::Context<double>& scene_context = scene_graph.GetMyContextFromRoot(*diagram_context);
-  geometry::QuerySensor<double> queryObject;
-  const auto& q_obj = scene_graph.get_query_output_port().Eval(scene_context);*/
 
-  //drake::log()->info(query_object);
-
-/*//Input actuation
- Eigen::Vector2d v2;
-  v2 << 0,0;
- SimpleArm.get_actuation_input_port().FixValue(&SimpleArm_context, v2);*/
-
-    // Get joints so that we can set initial conditions.
 
     // Set initial state.
     ElbowJoint.set_angle(&SimpleArm_context, 0.0);
     WristJoint.set_angle(&SimpleArm_context, 0.0);
-
-/*
-    ElbowJoint.set_angular_rate(&SimpleArm_context,Operation.PrePick(SimpleArm_context)); //TODO is this possible wrt simulation time? Doesn't work because not system context?
-    //WristJoint.set_angular_rate(&SimpleArm_context,SimpleArm.GetMyContextFromRoot(diagram).get_time());
-*/
-
-
-/*
-    auto OperationSource=
-            builder.AddSystem<drake::systems::TrajectorySource<double>>(Operation.PrePick(SimpleArm.get),1,0);
-    builder.Connect(*OperationSource, SimpleArm.get_actuation_input_port());
-*/
-
 
   systems::Simulator<double> simulator(*diagram, std::move(diagram_context));
   //lcm::Subscribe();
@@ -393,7 +348,7 @@ builder.Connect(Traj.get_output_port(),SimpleArm.get_input_port(3));*/
   simulator.set_target_realtime_rate(FLAGS_target_realtime_rate);
   simulator.Initialize();
 
-    while(LoopCond) {
+   /* while(LoopCond) {
 
         std::cout << "Enter Operation:" << std::endl;
         std::cin >> input;
@@ -420,9 +375,12 @@ builder.Connect(Traj.get_output_port(),SimpleArm.get_input_port(3));*/
         drake::log()->info(t0);
     }
             LoopCond = false;
-
-
-
+*/
+  while (true) {
+    auto t = simulator.get_context().get_time();
+    drake::log()->info(t);
+    simulator.AdvanceTo(t + 0.001);
+  }
  //const Context<double>& SimContext = simulator.get_context();
   return 0;
 }

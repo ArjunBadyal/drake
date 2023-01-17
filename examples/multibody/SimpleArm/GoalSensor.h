@@ -18,27 +18,25 @@ namespace drake {
 
 
 //template <typename T>
-                    class QuerySensor final : public LeafSystem<double> {
+                    class GoalSensor final : public LeafSystem<double> {
                     public:
-                        DRAKE_NO_COPY_NO_MOVE_NO_ASSIGN(QuerySensor)
+                        DRAKE_NO_COPY_NO_MOVE_NO_ASSIGN(GoalSensor)
 
-                        QuerySensor();
+                        GoalSensor();
 
-
-
-
-                        const systems::InputPort<double>& query_sensor_input_port() const {
-                          return this->get_input_port(query_sensor_input_port_);
+                        const systems::InputPort<double>& goal_sensor_input_port() const {
+                          return this->get_input_port(goal_sensor_input_port_);
                         }
-
-
 
                     private:
                         /*void CalcOutput(const Context<double>& context, BasicVector<double>* output) const;
                         */
-                     int query_sensor_input_port_;
+                     int goal_sensor_input_port_;
                      //event handler
-                     EventStatus MyPublish(const Context<double>&) const;
+                     //EventStatus MyPublish(const Context<double>&) const;
+
+                     void CalcOutput(const Context<double>& context,
+                                          BasicVector<double>* distance) const;
 
                     };
 

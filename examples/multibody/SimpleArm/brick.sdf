@@ -2,23 +2,24 @@
 <sdf version="1.7">
     <model name="foam_brick">
         <link name="base_link">
+
             <inertial>
-                <pose>0 5 0.25 0 0 0 </pose>
-                <mass>0</mass>
+                <pose>0 5 0.075 0 0 0 </pose>
+                <mass>0.0001</mass>
                 <inertia>
-                    <ixx>0</ixx>
+                    <ixx>0.0001</ixx>
                     <ixy>0</ixy>
                     <ixz>0</ixz>
-                    <iyy>0</iyy>
+                    <iyy>0.0001</iyy>
                     <iyz>0</iyz>
-                    <izz>0</izz>
+                    <izz>0.0001</izz>
                 </inertia>
             </inertial>
             <visual name="base_link">
-                <pose>0 4.75 0.25 0 0 0</pose>
+                <pose>0 4.7511 0.075 0 0 0</pose>
                 <geometry>
                     <box>
-                        <size>0.5 0.5 0.5</size>
+                        <size>0.35 0.35 0.35</size>
                     </box>
                 </geometry>
                 <material>
@@ -36,8 +37,88 @@
             points around the face).  However, for arbitrary grip configuration, the
             slightly inset box will provide contact with a *slight* offset (in this
             case a deviation of 0.0005 m from the visual surface).
-           -->
 
+           -->
+            <collision name="box_collision">
+                <pose>0 0 0.125 0 0 0</pose>
+                <surface>
+                    <friction>
+                        <ode>
+                            <mu>0.9</mu>
+                            <mu2>0.5</mu2>
+                        </ode>
+                    </friction>
+                </surface>
+                <geometry>
+                    <box>
+                        <size>0.35 0.35 0.35</size>
+                    </box>
+                </geometry>
+            </collision>
+            <!--<collision name="point_collision1">
+                <pose>0.175 0.175 0 0 0 0</pose>
+                <geometry>
+                    <sphere>
+                        <radius>1e-7</radius>
+                    </sphere>
+                </geometry>
+            </collision>
+            <collision name="point_collision2">
+                <pose>0.175 -0.175 0 0 0 0</pose>
+                <geometry>
+                    <sphere>
+                        <radius>1e-7</radius>
+                    </sphere>
+                </geometry>
+            </collision>
+            <collision name="point_collision3">
+                <pose>-0.175 0.175 0 0 0 0</pose>
+                <geometry>
+                    <sphere>
+                        <radius>1e-7</radius>
+                    </sphere>
+                </geometry>
+            </collision>
+            <collision name="point_collision4">
+                <pose>-0.175 -0.175 0 0 0 0</pose>
+                <geometry>
+                    <sphere>
+                        <radius>1e-7</radius>
+                    </sphere>
+                </geometry>
+            </collision>
+            <collision name="point_collision5">
+                <pose>0.175 0.175 0.05 0 0 0</pose>
+                <geometry>
+                    <sphere>
+                        <radius>1e-7</radius>
+                    </sphere>
+                </geometry>
+            </collision>
+            <collision name="point_collision6">
+                <pose>0.175 -0.175 0.05 0 0 0</pose>
+                <geometry>
+                    <sphere>
+                        <radius>1e-7</radius>
+                    </sphere>
+                </geometry>
+            </collision>
+            <collision name="point_collision7">
+                <pose>-0.175 0.175 0.05 0 0 0</pose>
+                <geometry>
+                    <sphere>
+                        <radius>1e-7</radius>
+                    </sphere>
+                </geometry>
+            </collision>
+            <collision name="point_collision8">
+                <pose>-0.0375 -0.175 0.05 0 0 0</pose>
+                <geometry>
+                    <sphere>
+                        <radius>1e-7</radius>
+                    </sphere>
+                </geometry>
+            </collision>-->
         </link>
     </model>
 </sdf>

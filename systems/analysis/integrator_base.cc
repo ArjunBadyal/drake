@@ -318,7 +318,6 @@ typename IntegratorBase<T>::StepResult
         const T& publish_time, const T& update_time, const T& boundary_time) {
   if (!IntegratorBase<T>::is_initialized())
     throw std::logic_error("Integrator not initialized.");
-
   // Now that integrator has been checked for initialization, get the current
   // time.
   const T t0 = context_->get_time();

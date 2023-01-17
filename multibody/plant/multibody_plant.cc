@@ -2495,7 +2495,7 @@ void MultibodyPlant<T>::CalcContactSolverResults(
   // Assert this method was called on a context storing discrete state.
   this->ValidateContext(context0);
   DRAKE_ASSERT(context0.num_continuous_states() == 0);
-
+  //drake::log()->info("vnext");
   // We use the custom manager if provided.
   // TODO(amcastro-tri): remove the entirety of the code we are bypassing here.
   // This requires one of our custom managers to become the default
@@ -2628,6 +2628,7 @@ void MultibodyPlant<T>::CalcContactSolverResults(
   // Joint locking: expand reduced outputs.
   results->v_next =
       internal::ExpandRows(results_unlocked.v_next, num_velocities(), indices);
+  //drake::log()->info(results->v_next);
   results->tau_contact =
       contact_jacobians.Jn.transpose() * results_unlocked.fn +
       contact_jacobians.Jt.transpose() * results_unlocked.ft;
@@ -2935,7 +2936,6 @@ void MultibodyPlant<T>::DoCalcForwardDynamicsDiscrete(
   this->ValidateContext(context0);
   DRAKE_DEMAND(ac != nullptr);
   DRAKE_DEMAND(is_discrete());
-
   // Guard against failure to acquire the geometry input deep in the call graph.
   ValidateGeometryInput(
       context0, "You've tried evaluating discrete forward dynamics.");
@@ -2957,7 +2957,8 @@ void MultibodyPlant<T>::DoCalcForwardDynamicsDiscrete(
 
   auto x0 = context0.get_discrete_state(0).get_value();
   const VectorX<T> v0 = x0.bottomRows(this->num_velocities());
-
+  /*drake::log()->info(v_next);
+  drake::log()->info(v0);*/
   ac->get_mutable_vdot() = (v_next - v0) / time_step();
 
   // N.B. Pool of spatial accelerations indexed by BodyNodeIndex.
@@ -3303,6 +3304,7 @@ void MultibodyPlant<T>::DeclareCacheEntries() {
         // the discrete update of these values as if zero-order held, which is
         // what we want.
         {this->xd_ticket(), this->all_parameters_ticket()});
+    drake::log()->info("Tamsi");
     cache_indexes_.contact_solver_results =
         tamsi_results_cache_entry.cache_index();
 
@@ -3345,6 +3347,7 @@ void MultibodyPlant<T>::DeclareCacheEntries() {
                                                            use_hydroelastic]() {
     std::set<systems::DependencyTicket> tickets;
     if (is_discrete()) {
+      drake::log()->info("hydroelastic");
       tickets.insert(
           this->cache_entry_ticket(cache_indexes_.contact_solver_results));
     } else {

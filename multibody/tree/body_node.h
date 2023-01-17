@@ -869,6 +869,7 @@ class BodyNode : public MultibodyElement<BodyNode, T, BodyNodeIndex> {
   //   matrix for this node.
   Eigen::Map<const MatrixUpTo6<T>> GetJacobianFromArray(
       const std::vector<Vector6<T>>& H_array) const {
+    //drake::log()->info(H_array[1]);
     DRAKE_DEMAND(static_cast<int>(H_array.size()) ==
         this->get_parent_tree().num_velocities());
     const int start_index_in_v = get_topology().mobilizer_velocities_start_in_v;

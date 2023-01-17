@@ -1,8 +1,7 @@
 #include "drake/examples/multibody/SimpleArm/PlatformMappingHandler.h"
 
-#include "drake/geometry/query_object.h"
+//#include "drake/geometry/query_object.h"
 
-#include <memory>
 
 #include "drake/common/default_scalars.h"
 #include "drake/common/random.h"
@@ -24,32 +23,40 @@ namespace SimpleArm {
 
 
 
-PMHandler::PMHandler(): LeafSystem<double>() {
+PMH::PMH(): LeafSystem<double>() {
 
-  this->DeclareVectorOutputPort("VelCmd", &PMHandler::CalcOutput);
+  PMH_input_port_ =
+      this->DeclareVectorInputPort("PMH_Input", 1).get_index();
+
+  this->DeclareVectorOutputPort("VelCmd",BasicVector<double>(4), &PMH::CalcOutput);
+
 }
 
-const InputPort<double>& PMHandler::distance_input_port() const {
-  return this->get_input_port(0);
-}
 
 
+void PMH::CalcOutput(const Context<double>& context,
+                          BasicVector<double>* output) const{
 
-void PMHandler::CalcOutput(const Context<double> &context, Eigen::VectorBlock<VectorX<double>>* output) const{
+  BasicVector<double> comm(4);
 
-  Eigen::Vector2d command;
 
-  if(input == "PrePick") {
-    command << PrePick(context.get_time() - t0), 0;
-  }
-  else if(input == "PrePlace"){
-    command << PrePlace(context.get_time() - t0), 0;
-  }
-  else if(input == "Return") {
-    command << Ret(context.get_time() - t0), 0;
-  }
+  //BasicVector<double> comm(2);
+  auto val = PMH_input_port().Eval(context);
+  double distance = val[0];
+  //drake::log()->info(distance);
+comm[1] = Operation(distance,distance, context.get_time());
   //drake::log()->info(context.get_time() - t0);
-  output->segment(0, 2) = command;
+comm[0] = 0.0;
+comm[2] = 0.0;
+comm[3] = 0.0;
+
+/*//for picking the box to investigate contact and collision
+if (context.get_time() < 1.59 && context.get_time() > 1.57)
+{
+  comm[2] = 0.1;
+  comm[3] = -0.1;
+}*/
+  output->get_mutable_value()  = comm.get_value();
 }
 
 }

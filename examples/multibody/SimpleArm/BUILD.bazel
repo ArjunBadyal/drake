@@ -1,6 +1,3 @@
-# -*- python -*-
-# This file contains rules for Bazel; see drake/doc/bazel.rst.
-
 package(default_visibility = ["//visibility:public"])
 
 load(
@@ -18,15 +15,27 @@ load("//tools/lint:lint.bzl", "add_lint_tests")
 
 
 drake_cc_library(
-    name = "QuerySensor",
-    srcs = ["QuerySensor.cc",],
-    hdrs = ["QuerySensor.h",],
+    name = "ObjectSensor",
+    srcs = ["ObjectSensor.cc",],
+    hdrs = ["ObjectSensor.h",],
     deps = [
         "//common:unused",
         "//systems/framework",
         "//geometry:scene_graph"
     ],
 )
+
+drake_cc_library(
+    name = "GoalSensor",
+    srcs = ["GoalSensor.cc",],
+    hdrs = ["GoalSensor.h",],
+    deps = [
+        "//common:unused",
+        "//systems/framework",
+        "//geometry:scene_graph"
+    ],
+)
+
 drake_cc_library(
     name = "PlatformMappinHandler",
     srcs = ["PlatformMappingHandler.cc",],
@@ -34,6 +43,7 @@ drake_cc_library(
     deps = [
         "//common:unused",
         "//systems/framework",
+        ":PlatformMapping"
     ],
 )
 
@@ -43,7 +53,7 @@ drake_cc_binary(
     name = "SimpleArm",
     srcs = ["SimpleArm.cc"],
     add_test_rule = 1,
-    data = ["SimpleArm.sdf", "brick.sdf"],
+    data = ["SimpleArm.sdf", "brick.sdf", "brick2.sdf"],
    # test_rule_args = [
      #   "--simulation_time=0.1",
       #  "--target_realtime_rate=0.0",],
@@ -52,7 +62,9 @@ drake_cc_binary(
         "//common:essential",
         "//lcmtypes:drake_signal",
         ":PlatformMapping",
-        ":QuerySensor",
+        ":PlatformMappinHandler",
+        ":ObjectSensor",
+        ":GoalSensor",
         ":SimpleLCM",
         "//common:add_text_logging_gflags",
         "//common:find_resource",

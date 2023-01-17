@@ -36,7 +36,7 @@ namespace drake {
                                                       &QuerySensor::CalcOutput);
                     }
 
-                 /*   const InputPort<double>& QuerySensor::get_depth_input_port() const {
+                 /*   const InputPort<double>& ObjectSensor::get_depth_input_port() const {
                       return this->get_input_port(0);
                     }*/
 

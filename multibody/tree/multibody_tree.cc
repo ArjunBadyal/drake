@@ -1617,17 +1617,18 @@ void MultibodyTree<T>::CalcMassMatrix(const systems::Context<T>& context,
 
         // The shift alone is sufficient for a weld joint.
         const int bnv = body_node->get_num_mobilizer_velocities();
+
         if (bnv > 0) {
           // Across mobilizer 6 x bnv Jacobian between body_node B and
           // its parent P.
           const Eigen::Map<const MatrixUpTo6<T>> H_PB_W =
               body_node->GetJacobianFromArray(H_PB_W_cache);
-
+          auto x = H_PB_W.transpose();
+          drake::log()->info(x);
           // Compute the corresponding bnv x cnv block.
           const MatrixUpTo6<T> HtFm = H_PB_W.transpose() * Fm_CBo_W;
           const int body_start = body_node->velocity_start();
           M->block(body_start, composite_start, bnv, cnv) += HtFm;
-
           // And copy to its symmetric block.
           M->block(composite_start, body_start, cnv, bnv) += HtFm.transpose();
         }
