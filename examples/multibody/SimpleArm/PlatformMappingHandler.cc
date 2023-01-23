@@ -50,12 +50,12 @@ comm[0] = 0.0;
 comm[2] = 0.0;
 comm[3] = 0.0;
 
-/*//for picking the box to investigate contact and collision
+//for picking the box to investigate contact and collision
 if (context.get_time() < 1.59 && context.get_time() > 1.57)
 {
   comm[2] = 0.1;
   comm[3] = -0.1;
-}*/
+}
   output->get_mutable_value()  = comm.get_value();
 }
 

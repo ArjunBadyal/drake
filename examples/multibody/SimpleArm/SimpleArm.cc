@@ -378,7 +378,7 @@ int do_main() {
 */
   while (true) {
     auto t = simulator.get_context().get_time();
-    drake::log()->info(t);
+    //drake::log()->info(t);
     simulator.AdvanceTo(t + 0.001);
   }
  //const Context<double>& SimContext = simulator.get_context();

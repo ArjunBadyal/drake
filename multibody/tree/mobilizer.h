@@ -221,7 +221,7 @@ class Mobilizer : public MultibodyElement<Mobilizer, T, MobilizerIndex> {
   // reference the same frame object.
   Mobilizer(const Frame<T>& inboard_frame,
             const Frame<T>& outboard_frame) :
-      inboard_frame_(inboard_frame), outboard_frame_(outboard_frame) {
+                                              inboard_frame_(inboard_frame), outboard_frame_(outboard_frame) {
     // Verify they are not the same frame.
     if (&inboard_frame == &outboard_frame) {
       throw std::runtime_error(
@@ -499,6 +499,7 @@ class Mobilizer : public MultibodyElement<Mobilizer, T, MobilizerIndex> {
     DRAKE_DEMAND(N->rows() == num_positions());
     DRAKE_DEMAND(N->cols() == num_velocities());
     DoCalcNMatrix(context, N);
+    drake::log()->info(N);
   }
 
   // Computes the kinematic mapping matrix `N⁺(q)` that maps time

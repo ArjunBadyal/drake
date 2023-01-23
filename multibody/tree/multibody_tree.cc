@@ -1623,8 +1623,8 @@ void MultibodyTree<T>::CalcMassMatrix(const systems::Context<T>& context,
           // its parent P.
           const Eigen::Map<const MatrixUpTo6<T>> H_PB_W =
               body_node->GetJacobianFromArray(H_PB_W_cache);
-          auto x = H_PB_W.transpose();
-          drake::log()->info(x);
+          //auto x = H_PB_W.transpose();
+          //drake::log()->info(x);
           // Compute the corresponding bnv x cnv block.
           const MatrixUpTo6<T> HtFm = H_PB_W.transpose() * Fm_CBo_W;
           const int body_start = body_node->velocity_start();

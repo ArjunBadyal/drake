@@ -170,7 +170,6 @@ void SpaceXYZFloatingMobilizer<T>::DoCalcNMatrix(
               -sy,            cy, 0.0,
     cy_x_cpi * sp, sy_x_cpi * sp, 1.0;
   // clang-format on
-
   N->setIdentity();
   N->template topLeftCorner<3, 3>() = Einv_F;
 }
@@ -217,7 +216,6 @@ void SpaceXYZFloatingMobilizer<T>::MapVelocityToQDot(
   DRAKE_ASSERT(v.size() == kNv);
   DRAKE_ASSERT(qdot != nullptr);
   DRAKE_ASSERT(qdot->size() == kNq);
-
   using std::abs;
   using std::cos;
   using std::sin;

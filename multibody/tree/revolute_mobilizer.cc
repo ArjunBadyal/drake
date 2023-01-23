@@ -32,7 +32,9 @@ const T& RevoluteMobilizer<T>::get_angle(
     const systems::Context<T>& context) const {
   auto q = this->get_positions(context);
   DRAKE_ASSERT(q.size() == kNq);
+  //drake::log()->info(q.coeffRef(0));
   return q.coeffRef(0);
+
 }
 
 template <typename T>
@@ -68,6 +70,7 @@ math::RigidTransform<T> RevoluteMobilizer<T>::CalcAcrossMobilizerTransform(
   DRAKE_ASSERT(q.size() == 1);
   const Eigen::AngleAxis<T> angle_axis(q[0], axis_F_);
   const math::RigidTransform<T> X_FM(angle_axis, Vector3<T>::Zero());
+  //drake::log()->info(q[0]);
   return X_FM;
 }
 
@@ -97,6 +100,7 @@ void RevoluteMobilizer<T>::ProjectSpatialForce(
   // Computes tau = H_FMᵀ * F_Mo_F where H_FM ∈ ℝ⁶ is:
   // H_FM = [axis_Fᵀ; 0ᵀ]ᵀ (see CalcAcrossMobilizerSpatialVelocity().)
   // Therefore H_FMᵀ * F_Mo_F = axis_F.dot(F_Mo_F.translational()):
+  //drake::log()->info(tau);
   tau[0] = axis_F_.dot(F_Mo_F.rotational());
 }
 
@@ -104,6 +108,8 @@ template <typename T>
 void RevoluteMobilizer<T>::DoCalcNMatrix(
     const systems::Context<T>&, EigenPtr<MatrixX<T>> N) const {
   (*N)(0, 0) = 1.0;
+
+
 }
 
 template <typename T>

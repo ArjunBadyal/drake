@@ -153,6 +153,7 @@ template <typename T>
 void PlanarMobilizer<T>::DoCalcNMatrix(const systems::Context<T>&,
                                        EigenPtr<MatrixX<T>> N) const {
   *N = Matrix3<T>::Identity();
+  drake::log()->info(N);
 }
 
 template <typename T>
