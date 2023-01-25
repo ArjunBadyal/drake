@@ -33,7 +33,7 @@ const T& PrismaticMobilizer<T>::get_translation(
     const systems::Context<T>& context) const {
   auto q = this->get_positions(context);
   DRAKE_ASSERT(q.size() == kNq);
-  drake::log()->info(q.coeffRef(0));
+  //drake::log()->info(q.coeffRef(0));
   return q.coeffRef(0);
 }
 

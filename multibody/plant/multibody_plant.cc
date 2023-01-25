@@ -2954,7 +2954,7 @@ void MultibodyPlant<T>::DoCalcForwardDynamicsDiscrete(
 
   // Retrieve the solution velocity for the next time step.
   const VectorX<T>& v_next = solver_results.v_next;
-
+  drake::log()->info(v_next[0]);
   auto x0 = context0.get_discrete_state(0).get_value();
   const VectorX<T> v0 = x0.bottomRows(this->num_velocities());
   /*drake::log()->info(v_next);
