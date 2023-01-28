@@ -2200,7 +2200,7 @@ TamsiSolverResult MultibodyPlant<T>::SolveUsingSubStepping(
   const double dt_substep = dt / num_substeps;
   VectorX<T> v0_substep = v0;
   VectorX<T> fn0_substep = fn0;
-
+//drake::log()->info(minus_tau);
   // Initialize info to an unsuccessful result.
   TamsiSolverResult info{
       TamsiSolverResult::kMaxIterationsReached};
