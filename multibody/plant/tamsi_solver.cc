@@ -627,7 +627,7 @@ TamsiSolverResult TamsiSolver<T>::SolveWithGuess(
     math::LinearSolver<Eigen::LDLT, MatrixX<T>> M_ldlt(M.eval());
     v = M_ldlt.Solve(p_star);
     // "One iteration" with exactly "zero" vt_error.
-    drake::log()->info(v[0]);
+    //drake::log()->info(M);
     statistics_.Update(0.0);
     return TamsiSolverResult::kSuccess;
   }

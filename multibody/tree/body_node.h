@@ -849,6 +849,7 @@ class BodyNode : public MultibodyElement<BodyNode, T, BodyNodeIndex> {
       // V_PB_W = V_PFb_W + V_FMb_W + V_MB_W = V_FMb_W =
       //         = R_WF * V_FM.Shift(p_MoBo_F)
       H_PB_W->col(imob) = (R_WF * Himob_FM.Shift(p_MB_F)).get_coeffs();
+      drake::log()->info(Himob_FM.Shift(p_MB_F));
     }
   }
 

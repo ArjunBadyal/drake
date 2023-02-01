@@ -2530,6 +2530,7 @@ void MultibodyPlant<T>::CalcContactSolverResults(
 
   // Workspace for inverse dynamics:
   // Bodies' accelerations, ordered by BodyNodeIndex.
+  // Bodies' accelerations, ordered by BodyNodeIndex.
   std::vector<SpatialAcceleration<T>> A_WB_array(num_bodies());
   // Generalized accelerations.
   VectorX<T> vdot = VectorX<T>::Zero(nv);
@@ -2954,7 +2955,8 @@ void MultibodyPlant<T>::DoCalcForwardDynamicsDiscrete(
 
   // Retrieve the solution velocity for the next time step.
   const VectorX<T>& v_next = solver_results.v_next;
-  drake::log()->info(v_next[0]);
+  //log for next velocity
+  //drake::log()->info(v_next[0]);
   auto x0 = context0.get_discrete_state(0).get_value();
   const VectorX<T> v0 = x0.bottomRows(this->num_velocities());
   /*drake::log()->info(v_next);
