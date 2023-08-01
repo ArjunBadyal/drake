@@ -2935,6 +2935,7 @@ void MultibodyPlant<T>::DoCalcForwardDynamicsDiscrete(
     const drake::systems::Context<T>& context0,
     AccelerationKinematicsCache<T>* ac) const {
   this->ValidateContext(context0);
+
   DRAKE_DEMAND(ac != nullptr);
   DRAKE_DEMAND(is_discrete());
   // Guard against failure to acquire the geometry input deep in the call graph.
@@ -2962,6 +2963,9 @@ void MultibodyPlant<T>::DoCalcForwardDynamicsDiscrete(
   /*drake::log()->info(v_next);
   drake::log()->info(v0);*/
   ac->get_mutable_vdot() = (v_next - v0) / time_step();
+
+
+
 
   // N.B. Pool of spatial accelerations indexed by BodyNodeIndex.
   internal_tree().CalcSpatialAccelerationsFromVdot(
@@ -3306,7 +3310,7 @@ void MultibodyPlant<T>::DeclareCacheEntries() {
         // the discrete update of these values as if zero-order held, which is
         // what we want.
         {this->xd_ticket(), this->all_parameters_ticket()});
-    drake::log()->info("Tamsi");
+
     cache_indexes_.contact_solver_results =
         tamsi_results_cache_entry.cache_index();
 

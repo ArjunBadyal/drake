@@ -74,7 +74,8 @@ class SpatialForce : public SpatialVector<SpatialForce, T> {
   /// In-place shift of a %SpatialForce from one point fixed on frame B to
   /// another fixed on frame B. On entry, `this` is F_Bp_E (spatial force on
   /// point Bp of frame B, expressed in a frame E). On return `this` is modified
-  /// to F_Bq_E (spatial force on point Bq of frame B, expressed in frame E).
+  /// to F_Bq_E (spatial force on point Bq
+  /// of frame B, expressed in frame E).
   /// @param[in] offset which is the position vector p_BpBq_E from point Bp
   /// (fixed on frame B) to point Bq (fixed on frame B), expressed in frame E.
   /// p_BpBq_E must have the same expressed-in frame E as `this` spatial force.

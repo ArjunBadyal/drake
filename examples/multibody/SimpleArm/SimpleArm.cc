@@ -21,6 +21,7 @@
 #include "drake/systems/framework/single_output_vector_source.h"
 #include "drake/systems/framework/diagram_builder.h"
 #include "drake/systems/framework/leaf_system.h"
+#include "drake/multibody/plant/multibody_plant.h"
 //#include "drake/systems/primitives/constant_vector_source.h"
 //#include "drake/systems/primitives/trajectory_source.h"
 
@@ -77,7 +78,7 @@ bool LoopCond = true;
 
 
 
-DEFINE_double(target_realtime_rate, 0.1,
+DEFINE_double(target_realtime_rate, 1.0,
               "Desired rate relative to real time.  See documentation for "
               "Simulator::set_target_realtime_rate() for details.");
 
@@ -250,6 +251,9 @@ int do_main() {
 
   auto PMHSystem = builder.AddSystem<PMH>();
 
+  //TODO PMHSystem.control_channels = (control_Channels*)malloc(sizeof(control_Channels));
+  //
+
 
   // Make and add the SimpleArm model.
   const std::string body1 = FindResourceOrThrow(
@@ -294,6 +298,7 @@ int do_main() {
 
            SimpleArm.mutable_gravity_field().set_gravity_vector(g);
   // Now the model is complete.
+
   SimpleArm.Finalize();
  // SimpleArm.set_penetration_allowance(FLAGS_penetration_allowance);
   // Sanity check on the availability of the optional source id before using it.
@@ -325,7 +330,6 @@ int do_main() {
 
 
 
-
   auto diagram = builder.Build();
 
 
@@ -347,7 +351,7 @@ int do_main() {
   simulator.set_publish_at_initialization(true);
   simulator.set_target_realtime_rate(FLAGS_target_realtime_rate);
   simulator.Initialize();
-
+  simulator.AdvanceTo(5);
    /* while(LoopCond) {
 
         std::cout << "Enter Operation:" << std::endl;
@@ -376,10 +380,13 @@ int do_main() {
     }
             LoopCond = false;
 */
-  while (true) {
-    auto t = simulator.get_context().get_time();
+  while (LoopCond) {
+    //auto t = simulator.get_context().get_time();
     //drake::log()->info(t);
-    simulator.AdvanceTo(t + 0.001);
+    //auto x = SimpleArm.GetBodyByName("1-BaseLink").body_frame().CalcPose(SimpleArm_context, SimpleArm.world_frame());
+    //drake::log()->info(x);
+
+    //LoopCond = false;
   }
  //const Context<double>& SimContext = simulator.get_context();
   return 0;

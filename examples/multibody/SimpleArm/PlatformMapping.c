@@ -44,22 +44,18 @@ t = t-2;
     /*
                 return 14.40105*(ind(t, 0, 1) * -33*pow(t,9)* (18694*pow(t,2) - 13439*t - 5255)/1250 +  ind(t, 1, 1.570796) * 0 - ind(t, 1.570796, 2.570796) * 33*pow(2.570796-t,9)* (18694*pow(2.570796-t,2) - 13439*(2.570796-t) - 5255)/1250);
     */
-    double ans = -2*14.40105*(-ind(t, 0, 1) * -33*pow(t,9)* (18694*pow(t,2) - 13439*t - 5255)/1250 - ind(t, 1, 2)*33*pow(2-t,9)* (18694*pow(2-t,2) - 13439*(2-t) - 5255)/1250) ;
-    //drake::log()->info(ans);
-    printf("preplacing");
+    double ans = -14.40105*(- ind(t, 0, 1) * -33*pow(t,9)* (18694*pow(t,2) - 13439*t - 5255)/1250 - ind(t, 1, 2)*33*pow(2-t,9)* (18694*pow(2-t,2) - 13439*(2-t) - 5255)/1250 -  ind(t, 2, 3) * -33*pow(t-2,9)* (18694*pow(t-2,2) - 13439*(t-2) - 5255)/1250 - ind(t, 3, 4)*33*pow(4-t,9)* (18694*pow(4-t,2) - 13439*(4-t) - 5255)/1250) ;
     return ans;
 }
 
 double Ret(double t) {
-  if (t < 2) {
+t = t - 6;
     /*return -ind(t, 0, 1) * (pow(t, 10) * (34683 + 80634 * t - 102817 * pow(t, 2))) / 2500 +
            ind(t, 1, 2) * (pow(t, 10) * (34683 + 80634 * t - 102817 * pow(t, 2))) / 2500;*/
     return
         /*GravityComp().PreGrav(t)*/
         14.40105*(-ind(t, 0, 1) * -33*pow(t,9)* (18694*pow(t,2) - 13439*t - 5255)/1250 - ind(t, 1, 2)*33*pow(2-t,9)* (18694*pow(2-t,2) - 13439*(2-t) - 5255)/1250) ;
 
-  } else
-    return 0;
 }
 
 double Operation(double Objectdistance, double Goaldistance,  double t) {
@@ -116,22 +112,28 @@ double Operation(double Objectdistance, double Goaldistance,  double t) {
     /*printf("%s", event1);
     printf("%f\\n",t);
     printf("%s\\n",event2);*/
-    if (t <2 &&  strcmp(event1,"detectObject") == 0){
+    /*int t1 = 1;
+    t1 = t +1;*//*
+    printf("%f\\n",t);;*/
 
+    if (t <2 &&  strcmp(event1,"detectObject") == 0){
+      //printf("PrePicking");
       return "PrePick";
       //printf("Too far away :(");
 
     }
-    else if (t>=2 && t <3 && strcmp(event2,"detectGoal") == 0)
+    else if (t>=2 && t <6 && strcmp(event2,"detectGoal") == 0)
     {
+      //printf("PrePlacing");
       return "PrePlace";
-      printf("PrePlacing :)");
+
     }
 
-    else if (t>=3 && t <5)
+    else if (t>=6 && t <8)
     {
+      printf("Returning");
       return "Return";
-      printf("Returning:)");
+
     }
 
 

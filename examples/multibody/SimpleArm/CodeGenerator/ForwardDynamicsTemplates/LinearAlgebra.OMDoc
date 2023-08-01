@@ -1,0 +1,1882 @@
+
+<?xml version="1.0"?>
+        <!DOCTYPE omdoc PUBLIC "-//OMDoc//DTD OMDoc V1.2//EN" "../dtd/omdoc-basic.dtd" [<!ENTITY % om.prefixed "INCLUDE">]>
+
+<omdoc xml:id="LinearAlgebra"
+       xmlns="http://www.mathweb.org/omdoc"
+       xmlns:dc="http://dublincore.org"
+       xmlns:om="http://www.openmath.org/OpenMath">
+
+    <metadata>
+        <dc:title>The theory VECTOR-SPACES in IMPS</dc:title>
+        <dc:source>
+            <dc:title>IMPS: An Interactive Mathematical Proof System</dc:title>
+            <dc:creator role="aut">W.M. Farmer</dc:creator>
+            <dc:creator role="aut">J.D. Guttman</dc:creator>
+            <dc:creator role="aut">F.J. Thayer</dc:creator>
+            <dc:date action="created">2001</dc:date>
+        </dc:source>
+        <dc:creator role="aut">W.M. Farmer</dc:creator>
+        <dc:creator role="aut">J.D. Guttman</dc:creator>
+        <dc:creator role="aut">F.J. Thayer</dc:creator>
+        <dc:contributor role="trl">Yan Li</dc:contributor>
+        <dc:contributor role="edt">Marc Bender</dc:contributor>
+        <dc:date action="created">2002</dc:date>
+        <dc:date action="updated">2005</dc:date>
+    </metadata>
+
+
+    <theory xml:id="vector-spaces">
+
+        <omgroup xml:id="vector-spaces-component-theories" type="sequence">
+            <metadata>
+                <dc:title>Component theories</dc:title>
+            </metadata>
+
+
+            <imports xml:id="h-o-real-arithmetic.import"  from="h-o-real-arithmetic"/>
+            <omtext xml:id="h-o-real-arithmetic.import-display">
+                <CMP>
+                    "h-o-real-arithmetic" - component theory of "vector-spaces".
+                </CMP>
+            </omtext>
+
+
+            <imports xml:id="fields.import"  from="fields"/>
+            <omtext xml:id="fields.import-display">
+                <CMP>
+                    "fields" - component theory of "vector-spaces".
+                </CMP>
+            </omtext>
+
+        </omgroup>
+
+
+
+
+        <omgroup xml:id="vector-space-language" type="sequence">
+            <metadata>
+                <dc:title> The symbols in "vector-space-language" </dc:title>
+            </metadata>
+
+            <omtext xml:id="vector-space-language-intro">
+                <CMP> "vector-space-language" - language of the theory "vector-spaces". </CMP>
+            </omtext>
+
+            <symbol xml:id="vv" kind="sort">
+                <CMP> "vv" - primitive sort of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="vv">
+                <CMP> The enclosing sort of "vv" is "vv". </CMP>
+                <om:OMOBJ>
+                    <om:OMS cd="vector-spaces" name="vv"/>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="++" kind="object">
+                <CMP> "++" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="++">
+                <CMP> The sort of "++" is "[vv,vv,vv]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="arith1" name="addition"/>
+                        <om:OMS cd="vector-spaces" name="vv"/>
+                        <om:OMS cd="vector-spaces" name="vv"/>
+                        <om:OMS cd="vector-spaces" name="vv"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="v0" kind="object">
+                <CMP> "v0" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="v0">
+                <CMP> The sort of "v0" is "vv". </CMP>
+                <om:OMOBJ>
+                    <om:OMS cd="vector-spaces" name="vv"/>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="**" kind="object">
+                <CMP> "**" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="**">
+                <CMP> The sort of "**" is "[kk,vv,vv]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="fields" name="kk"/>
+                        <om:OMS cd="vector-spaces" name="vv"/>
+                        <om:OMS cd="vector-spaces" name="vv"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="sum" kind="object">
+                <CMP> "sum" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="sum">
+                <CMP> The sort of "sum" is "[zz,zz,[zz,rr],rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        </om:OMA>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="prod" kind="object">
+                <CMP> "prod" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="prod">
+                <CMP> The sort of "prod" is "[zz,zz,[zz,rr],rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        </om:OMA>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="factorial" kind="object">
+                <CMP> "factorial" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="factorial">
+                <CMP> The sort of "factorial" is "[zz,rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="&gt;" kind="object">
+                <CMP> "&gt;" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="&gt;">
+                <CMP> The sort of "&gt;" is "[rr,rr,prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="&gt;=" kind="object">
+                <CMP> "&gt;=" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="&gt;=">
+                <CMP> The sort of "&gt;=" is "[rr,rr,prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="comb" kind="object">
+                <CMP> "comb" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="comb">
+                <CMP> The sort of "comb" is "[zz,zz,rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="abs" kind="object">
+                <CMP> "abs" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="abs">
+                <CMP> The sort of "abs" is "[rr,rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="max" kind="object">
+                <CMP> "max" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="max">
+                <CMP> The sort of "max" is "[rr,rr,rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="min" kind="object">
+                <CMP> "min" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="min">
+                <CMP> The sort of "min" is "[rr,rr,rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="sqrt" kind="object">
+                <CMP> "sqrt" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="sqrt">
+                <CMP> The sort of "sqrt" is "[rr,rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="ub_rr" kind="object">
+                <CMP> "ub_rr" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="ub_rr">
+                <CMP> The sort of "ub_rr" is "[[rr,prop],rr,prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                            <om:OMS cd="the-kernel-theory" name="prop"/>
+                        </om:OMA>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="lub_rr" kind="object">
+                <CMP> "lub_rr" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="lub_rr">
+                <CMP> The sort of "lub_rr" is "[[rr,prop],rr,prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                            <om:OMS cd="the-kernel-theory" name="prop"/>
+                        </om:OMA>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="even" kind="object">
+                <CMP> "even" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="even">
+                <CMP> The sort of "even" is "[zz,prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="odd" kind="object">
+                <CMP> "odd" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="odd">
+                <CMP> The sort of "odd" is "[zz,prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="nn%quotient" kind="object">
+                <CMP> "nn%quotient" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="nn%quotient">
+                <CMP> The sort of "nn%quotient" is "[rr,rr,rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="zz%quotient" kind="object">
+                <CMP> "zz%quotient" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="zz%quotient">
+                <CMP> The sort of "zz%quotient" is "[zz,zz,rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="convergent%to%infinity" kind="object">
+                <CMP> "convergent%to%infinity" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="convergent%to%infinity">
+                <CMP> The sort of "convergent%to%infinity" is "[[zz,rr],prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        </om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="set%min" kind="object">
+                <CMP> "set%min" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="set%min">
+                <CMP> The sort of "set%min" is "[sets[zz],zz]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                            <om:OMS cd="the-kernel-theory" name="unit%sort"/>
+                        </om:OMA>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="floor" kind="object">
+                <CMP> "floor" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="floor">
+                <CMP> The sort of "floor" is "[rr,zz]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="mod" kind="object">
+                <CMP> "mod" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="mod">
+                <CMP> The sort of "mod" is "[rr,rr,rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="div" kind="object">
+                <CMP> "div" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="div">
+                <CMP> The sort of "div" is "[rr,rr,zz]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="majorizes" kind="object">
+                <CMP> "majorizes" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="majorizes">
+                <CMP> The sort of "majorizes" is "[rr,sets[rr],prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                            <om:OMS cd="the-kernel-theory" name="unit%sort"/>
+                        </om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="sup" kind="object">
+                <CMP> "sup" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="sup">
+                <CMP> The sort of "sup" is "[sets[rr],rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                            <om:OMS cd="the-kernel-theory" name="unit%sort"/>
+                        </om:OMA>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="nondecreasing" kind="object">
+                <CMP> "nondecreasing" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="nondecreasing">
+                <CMP> The sort of "nondecreasing" is "[[zz,rr],prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        </om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="minorizes" kind="object">
+                <CMP> "minorizes" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="minorizes">
+                <CMP> The sort of "minorizes" is "[rr,sets[rr],prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                            <om:OMS cd="the-kernel-theory" name="unit%sort"/>
+                        </om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="inf" kind="object">
+                <CMP> "inf" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="inf">
+                <CMP> The sort of "inf" is "[sets[rr],rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                            <om:OMS cd="the-kernel-theory" name="unit%sort"/>
+                        </om:OMA>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="nonincreasing" kind="object">
+                <CMP> "nonincreasing" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="nonincreasing">
+                <CMP> The sort of "nonincreasing" is "[[zz,rr],prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        </om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="lim%inf" kind="object">
+                <CMP> "lim%inf" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="lim%inf">
+                <CMP> The sort of "lim%inf" is "[[zz,rr],rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        </om:OMA>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="lim%sup" kind="object">
+                <CMP> "lim%sup" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="lim%sup">
+                <CMP> The sort of "lim%sup" is "[[zz,rr],rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        </om:OMA>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="summable%nonnegative" kind="object">
+                <CMP> "summable%nonnegative" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="summable%nonnegative">
+                <CMP> The sort of "summable%nonnegative" is "[[zz,rr],prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="zz"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        </om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="discrete%set" kind="object">
+                <CMP> "discrete%set" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="discrete%set">
+                <CMP> The sort of "discrete%set" is "[sets[rr],prop]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                            <om:OMS cd="the-kernel-theory" name="unit%sort"/>
+                        </om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="prop"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+            <symbol xml:id="preceding" kind="object">
+                <CMP> "preceding" - primitive constant of the theory "vector-spaces". </CMP>
+            </symbol>
+
+            <type system="imps-sorts" for="preceding">
+                <CMP> The sort of "preceding" is "[sets[rr],rr,rr]". </CMP>
+                <om:OMOBJ>
+                    <om:OMA>
+                        <om:OMS cd="the-kernel-theory" name="funsort"/>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="funsort"/>
+                            <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                            <om:OMS cd="the-kernel-theory" name="unit%sort"/>
+                        </om:OMA>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                        <om:OMS cd="h-o-real-arithmetic" name="rr"/>
+                    </om:OMA>
+                </om:OMOBJ>
+            </type>
+
+
+        </omgroup>
+
+
+        <omgroup xml:id="axioms-of-vector-spaces" type="sequence">
+            <metadata>
+                <dc:title> Axioms </dc:title>
+            </metadata>
+
+            <omtext xml:id="vector-spaces-axioms-intro">
+                <CMP> The axioms of the theory "vector-spaces" (which are not from its component theories). </CMP>
+            </omtext>
+
+
+            <axiom xml:id="scalar-multiplication-by-one">
+                <CMP>
+                    Axiom name: "scalar-multiplication-by-one". <with style="linebreak"/>
+
+                    Formula (string): "forall(x:vv,i_kk**x=x)". <with style="linebreak"/>
+
+                    Formula (s-expression): "(forall ((vv x)) (= (apply-operator ** i_kk x) x))". <with style="linebreak"/>
+
+                    Usage list: none. <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMS cd="fields" name="i_kk"/>
+                                    <om:OMV name="x"/>
+                                </om:OMA>
+                                <om:OMV name="x"/>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </axiom>
+
+
+            <axiom xml:id="scalar-multiplication-by-zero">
+                <CMP>
+                    Axiom name: "scalar-multiplication-by-zero". <with style="linebreak"/>
+
+                    Formula (string): "forall(x:vv,o_kk**x=v0)". <with style="linebreak"/>
+
+                    Formula (s-expression): "(forall ((vv x)) (= (apply-operator ** o_kk x) v0))". <with style="linebreak"/>
+
+                    Usage list: none. <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMS cd="fields" name="o_kk"/>
+                                    <om:OMV name="x"/>
+                                </om:OMA>
+                                <om:OMS cd="vector-spaces" name="v0"/>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </axiom>
+
+
+            <axiom xml:id="vector-times-right-distributivity">
+                <CMP>
+                    Axiom name: "vector-times-right-distributivity". <with style="linebreak"/>
+
+                    Formula (string): "forall(a,b:kk,x:vv,(a +_kk b)**x=a**x++b**x)". <with style="linebreak"/>
+
+                    Formula (s-expression):
+                    "(forall ((kk a b) (vv x))
+                    (= (apply-operator ** (apply-operator +_kk a b) x)
+                    (apply-operator ++ (apply-operator ** a x) (apply-operator ** b x))))". <with style="linebreak"/>
+
+                    Usage list: none. <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="fields" name="kk"/>
+                                    </om:OMATP>
+                                    <om:OMV name="a"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="fields" name="kk"/>
+                                    </om:OMATP>
+                                    <om:OMV name="b"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMA>
+                                        <om:OMS cd="fields" name="+_kk"/>
+                                        <om:OMV name="a"/>
+                                        <om:OMV name="b"/>
+                                    </om:OMA>
+                                    <om:OMV name="x"/>
+                                </om:OMA>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="**"/>
+                                        <om:OMV name="a"/>
+                                        <om:OMV name="x"/>
+                                    </om:OMA>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="**"/>
+                                        <om:OMV name="b"/>
+                                        <om:OMV name="x"/>
+                                    </om:OMA>
+                                </om:OMA>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </axiom>
+
+
+            <axiom xml:id="vector-times-left-distributivity">
+                <CMP>
+                    Axiom name: "vector-times-left-distributivity". <with style="linebreak"/>
+
+                    Formula (string): "forall(x,y:vv,a:kk,a**(x++y)=a**x++a**y)". <with style="linebreak"/>
+
+                    Formula (s-expression):
+                    "(forall ((vv x y) (kk a))
+                    (= (apply-operator ** a (apply-operator ++ x y))
+                    (apply-operator ++ (apply-operator ** a x) (apply-operator ** a y))))". <with style="linebreak"/>
+
+                    Usage list: none. <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="y"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="fields" name="kk"/>
+                                    </om:OMATP>
+                                    <om:OMV name="a"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMV name="a"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="++"/>
+                                        <om:OMV name="x"/>
+                                        <om:OMV name="y"/>
+                                    </om:OMA>
+                                </om:OMA>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="**"/>
+                                        <om:OMV name="a"/>
+                                        <om:OMV name="x"/>
+                                    </om:OMA>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="**"/>
+                                        <om:OMV name="a"/>
+                                        <om:OMV name="y"/>
+                                    </om:OMA>
+                                </om:OMA>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </axiom>
+
+
+            <axiom xml:id="vector-times-associativity">
+                <CMP>
+                    Axiom name: "vector-times-associativity". <with style="linebreak"/>
+
+                    Formula (string): "forall(x,y:kk,z:vv,(x *_kk y)**z=x**(y**z))". <with style="linebreak"/>
+
+                    Formula (s-expression):
+                    "(forall ((kk x y) (vv z))
+                    (= (apply-operator ** (apply-operator *_kk x y) z)
+                    (apply-operator ** x (apply-operator ** y z))))". <with style="linebreak"/>
+
+                    Usage list: none. <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="fields" name="kk"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="fields" name="kk"/>
+                                    </om:OMATP>
+                                    <om:OMV name="y"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="z"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMA>
+                                        <om:OMS cd="fields" name="*_kk"/>
+                                        <om:OMV name="x"/>
+                                        <om:OMV name="y"/>
+                                    </om:OMA>
+                                    <om:OMV name="z"/>
+                                </om:OMA>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMV name="x"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="**"/>
+                                        <om:OMV name="y"/>
+                                        <om:OMV name="z"/>
+                                    </om:OMA>
+                                </om:OMA>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </axiom>
+
+
+            <axiom xml:id="vector-times-totality">
+                <CMP>
+                    Axiom name: "vector-times-totality". <with style="linebreak"/>
+
+                    Formula (string): "total_q{**,[kk,vv,vv]}". <with style="linebreak"/>
+
+                    Formula (s-expression): "(total? ** (undefined (kk vv vv)))". <with style="linebreak"/>
+
+                    Usage list: none. <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="total?"/>
+                            <om:OMS cd="vector-spaces" name="**"/>
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="undefined"/>
+                                <om:OMA>
+                                    <om:OMS cd="the-kernel-theory" name="funsort"/>
+                                    <om:OMS cd="fields" name="kk"/>
+                                    <om:OMS cd="vector-spaces" name="vv"/>
+                                    <om:OMS cd="vector-spaces" name="vv"/>
+                                </om:OMA>
+                            </om:OMA>
+
+                        </om:OMA>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </axiom>
+
+
+            <axiom xml:id="vector-zero-identity">
+                <CMP>
+                    Axiom name: "vector-zero-identity". <with style="linebreak"/>
+
+                    Formula (string): "forall(x:vv,x++v0=x)". <with style="linebreak"/>
+
+                    Formula (s-expression): "(forall ((vv x)) (= (apply-operator ++ x v0) x))". <with style="linebreak"/>
+
+                    Usage list: none. <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMV name="x"/>
+                                    <om:OMS cd="vector-spaces" name="v0"/>
+                                </om:OMA>
+                                <om:OMV name="x"/>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </axiom>
+
+
+            <axiom xml:id="vector-plus-commutativity">
+                <CMP>
+                    Axiom name: "vector-plus-commutativity". <with style="linebreak"/>
+
+                    Formula (string): "forall(x,y:vv,x++y=y++x)". <with style="linebreak"/>
+
+                    Formula (s-expression): "(forall ((vv x y)) (= (apply-operator ++ x y) (apply-operator ++ y x)))". <with style="linebreak"/>
+
+                    Usage list: none. <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="y"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMV name="x"/>
+                                    <om:OMV name="y"/>
+                                </om:OMA>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMV name="y"/>
+                                    <om:OMV name="x"/>
+                                </om:OMA>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </axiom>
+
+
+            <axiom xml:id="vector-plus-associativity">
+                <CMP>
+                    Axiom name: "vector-plus-associativity". <with style="linebreak"/>
+
+                    Formula (string): "forall(x,y,z:vv,x++y++z=x++(y++z))". <with style="linebreak"/>
+
+                    Formula (s-expression):
+                    "(forall ((vv x y z))
+                    (= (apply-operator ++ (apply-operator ++ x y) z)
+                    (apply-operator ++ x (apply-operator ++ y z))))". <with style="linebreak"/>
+
+                    Usage list: none. <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="y"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="z"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="++"/>
+                                        <om:OMV name="x"/>
+                                        <om:OMV name="y"/>
+                                    </om:OMA>
+                                    <om:OMV name="z"/>
+                                </om:OMA>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMV name="x"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="++"/>
+                                        <om:OMV name="y"/>
+                                        <om:OMV name="z"/>
+                                    </om:OMA>
+                                </om:OMA>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </axiom>
+
+
+            <axiom xml:id="vector-plus-totality">
+                <CMP>
+                    Axiom name: "vector-plus-totality". <with style="linebreak"/>
+
+                    Formula (string): "total_q{++,[vv,vv,vv]}". <with style="linebreak"/>
+
+                    Formula (s-expression): "(total? ++ (undefined (vv vv vv)))". <with style="linebreak"/>
+
+                    Usage list: none. <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="total?"/>
+                            <om:OMS cd="vector-spaces" name="++"/>
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="undefined"/>
+                                <om:OMA>
+                                    <om:OMS cd="the-kernel-theory" name="funsort"/>
+                                    <om:OMS cd="vector-spaces" name="vv"/>
+                                    <om:OMS cd="vector-spaces" name="vv"/>
+                                    <om:OMS cd="vector-spaces" name="vv"/>
+                                </om:OMA>
+                            </om:OMA>
+
+                        </om:OMA>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </axiom>
+
+        </omgroup>
+
+
+        <omgroup xml:id="events-of-vector-spaces" type="sequence">
+            <metadata>
+                <dc:title>Events</dc:title>
+            </metadata>
+
+            <omtext xml:id="vector-spaces-events-intro">
+                <CMP>
+                    The events of the theory "vector-spaces" in load order.
+                </CMP>
+            </omtext>
+
+
+            <assertion xml:id="vector-plus-totality"  type="theorem">
+                <CMP>
+                    Theorem name: "vector-plus-totality". <with style="linebreak"/>
+
+                    Formula (string): "total_q{++,[vv,vv,vv]}". <with style="linebreak"/>
+
+                    Formula (s-expression): "(total? ++ (undefined (vv vv vv)))". <with style="linebreak"/>
+
+                    Usage list: "elementary-macete", "d-r-convergence", "transportable-macete". <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="total?"/>
+                            <om:OMS cd="vector-spaces" name="++"/>
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="undefined"/>
+                                <om:OMA>
+                                    <om:OMS cd="the-kernel-theory" name="funsort"/>
+                                    <om:OMS cd="vector-spaces" name="vv"/>
+                                    <om:OMS cd="vector-spaces" name="vv"/>
+                                    <om:OMS cd="vector-spaces" name="vv"/>
+                                </om:OMA>
+                            </om:OMA>
+
+                        </om:OMA>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </assertion>
+
+
+            <assertion xml:id="vector-plus-associativity"  type="theorem">
+                <CMP>
+                    Theorem name: "vector-plus-associativity". <with style="linebreak"/>
+
+                    Formula (string): "forall(x,y,z:vv,x++y++z=x++(y++z))". <with style="linebreak"/>
+
+                    Formula (s-expression):
+                    "(forall ((vv x y z))
+                    (= (apply-operator ++ (apply-operator ++ x y) z)
+                    (apply-operator ++ x (apply-operator ++ y z))))". <with style="linebreak"/>
+
+                    Usage list: "elementary-macete", "transportable-macete". <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="y"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="z"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="++"/>
+                                        <om:OMV name="x"/>
+                                        <om:OMV name="y"/>
+                                    </om:OMA>
+                                    <om:OMV name="z"/>
+                                </om:OMA>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMV name="x"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="++"/>
+                                        <om:OMV name="y"/>
+                                        <om:OMV name="z"/>
+                                    </om:OMA>
+                                </om:OMA>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </assertion>
+
+
+            <assertion xml:id="vector-plus-commutativity"  type="theorem">
+                <CMP>
+                    Theorem name: "vector-plus-commutativity". <with style="linebreak"/>
+
+                    Formula (string): "forall(x,y:vv,x++y=y++x)". <with style="linebreak"/>
+
+                    Formula (s-expression): "(forall ((vv x y)) (= (apply-operator ++ x y) (apply-operator ++ y x)))". <with style="linebreak"/>
+
+                    Usage list: "elementary-macete", "transportable-macete". <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="y"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMV name="x"/>
+                                    <om:OMV name="y"/>
+                                </om:OMA>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMV name="y"/>
+                                    <om:OMV name="x"/>
+                                </om:OMA>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </assertion>
+
+
+            <assertion xml:id="vector-zero-identity"  type="theorem">
+                <CMP>
+                    Theorem name: "vector-zero-identity". <with style="linebreak"/>
+
+                    Formula (string): "forall(x:vv,x++v0=x)". <with style="linebreak"/>
+
+                    Formula (s-expression): "(forall ((vv x)) (= (apply-operator ++ x v0) x))". <with style="linebreak"/>
+
+                    Usage list: "elementary-macete", "transportable-macete". <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMV name="x"/>
+                                    <om:OMS cd="vector-spaces" name="v0"/>
+                                </om:OMA>
+                                <om:OMV name="x"/>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </assertion>
+
+
+            <assertion xml:id="vector-times-totality"  type="theorem">
+                <CMP>
+                    Theorem name: "vector-times-totality". <with style="linebreak"/>
+
+                    Formula (string): "total_q{**,[kk,vv,vv]}". <with style="linebreak"/>
+
+                    Formula (s-expression): "(total? ** (undefined (kk vv vv)))". <with style="linebreak"/>
+
+                    Usage list: "elementary-macete", "d-r-convergence", "transportable-macete". <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMA>
+                            <om:OMS cd="the-kernel-theory" name="total?"/>
+                            <om:OMS cd="vector-spaces" name="**"/>
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="undefined"/>
+                                <om:OMA>
+                                    <om:OMS cd="the-kernel-theory" name="funsort"/>
+                                    <om:OMS cd="fields" name="kk"/>
+                                    <om:OMS cd="vector-spaces" name="vv"/>
+                                    <om:OMS cd="vector-spaces" name="vv"/>
+                                </om:OMA>
+                            </om:OMA>
+
+                        </om:OMA>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </assertion>
+
+
+            <assertion xml:id="vector-times-associativity"  type="theorem">
+                <CMP>
+                    Theorem name: "vector-times-associativity". <with style="linebreak"/>
+
+                    Formula (string): "forall(x,y:kk,z:vv,(x *_kk y)**z=x**(y**z))". <with style="linebreak"/>
+
+                    Formula (s-expression):
+                    "(forall ((kk x y) (vv z))
+                    (= (apply-operator ** (apply-operator *_kk x y) z)
+                    (apply-operator ** x (apply-operator ** y z))))". <with style="linebreak"/>
+
+                    Usage list: "elementary-macete", "transportable-macete". <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="fields" name="kk"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="fields" name="kk"/>
+                                    </om:OMATP>
+                                    <om:OMV name="y"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="z"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMA>
+                                        <om:OMS cd="fields" name="*_kk"/>
+                                        <om:OMV name="x"/>
+                                        <om:OMV name="y"/>
+                                    </om:OMA>
+                                    <om:OMV name="z"/>
+                                </om:OMA>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMV name="x"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="**"/>
+                                        <om:OMV name="y"/>
+                                        <om:OMV name="z"/>
+                                    </om:OMA>
+                                </om:OMA>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </assertion>
+
+
+            <assertion xml:id="vector-times-left-distributivity"  type="theorem">
+                <CMP>
+                    Theorem name: "vector-times-left-distributivity". <with style="linebreak"/>
+
+                    Formula (string): "forall(x,y:vv,a:kk,a**(x++y)=a**x++a**y)". <with style="linebreak"/>
+
+                    Formula (s-expression):
+                    "(forall ((vv x y) (kk a))
+                    (= (apply-operator ** a (apply-operator ++ x y))
+                    (apply-operator ++ (apply-operator ** a x) (apply-operator ** a y))))". <with style="linebreak"/>
+
+                    Usage list: "elementary-macete", "transportable-macete". <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="y"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="fields" name="kk"/>
+                                    </om:OMATP>
+                                    <om:OMV name="a"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMV name="a"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="++"/>
+                                        <om:OMV name="x"/>
+                                        <om:OMV name="y"/>
+                                    </om:OMA>
+                                </om:OMA>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="**"/>
+                                        <om:OMV name="a"/>
+                                        <om:OMV name="x"/>
+                                    </om:OMA>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="**"/>
+                                        <om:OMV name="a"/>
+                                        <om:OMV name="y"/>
+                                    </om:OMA>
+                                </om:OMA>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </assertion>
+
+
+            <assertion xml:id="vector-times-right-distributivity"  type="theorem">
+                <CMP>
+                    Theorem name: "vector-times-right-distributivity". <with style="linebreak"/>
+
+                    Formula (string): "forall(a,b:kk,x:vv,(a +_kk b)**x=a**x++b**x)". <with style="linebreak"/>
+
+                    Formula (s-expression):
+                    "(forall ((kk a b) (vv x))
+                    (= (apply-operator ** (apply-operator +_kk a b) x)
+                    (apply-operator ++ (apply-operator ** a x) (apply-operator ** b x))))". <with style="linebreak"/>
+
+                    Usage list: "elementary-macete", "transportable-macete". <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="fields" name="kk"/>
+                                    </om:OMATP>
+                                    <om:OMV name="a"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="fields" name="kk"/>
+                                    </om:OMATP>
+                                    <om:OMV name="b"/>
+                                </om:OMATTR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMA>
+                                        <om:OMS cd="fields" name="+_kk"/>
+                                        <om:OMV name="a"/>
+                                        <om:OMV name="b"/>
+                                    </om:OMA>
+                                    <om:OMV name="x"/>
+                                </om:OMA>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="++"/>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="**"/>
+                                        <om:OMV name="a"/>
+                                        <om:OMV name="x"/>
+                                    </om:OMA>
+                                    <om:OMA>
+                                        <om:OMS cd="vector-spaces" name="**"/>
+                                        <om:OMV name="b"/>
+                                        <om:OMV name="x"/>
+                                    </om:OMA>
+                                </om:OMA>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </assertion>
+
+
+            <assertion xml:id="scalar-multiplication-by-zero"  type="theorem">
+                <CMP>
+                    Theorem name: "scalar-multiplication-by-zero". <with style="linebreak"/>
+
+                    Formula (string): "forall(x:vv,o_kk**x=v0)". <with style="linebreak"/>
+
+                    Formula (s-expression): "(forall ((vv x)) (= (apply-operator ** o_kk x) v0))". <with style="linebreak"/>
+
+                    Usage list: "elementary-macete", "transportable-macete". <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMS cd="fields" name="o_kk"/>
+                                    <om:OMV name="x"/>
+                                </om:OMA>
+                                <om:OMS cd="vector-spaces" name="v0"/>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </assertion>
+
+
+            <assertion xml:id="scalar-multiplication-by-one"  type="theorem">
+                <CMP>
+                    Theorem name: "scalar-multiplication-by-one". <with style="linebreak"/>
+
+                    Formula (string): "forall(x:vv,i_kk**x=x)". <with style="linebreak"/>
+
+                    Formula (s-expression): "(forall ((vv x)) (= (apply-operator ** i_kk x) x))". <with style="linebreak"/>
+
+                    Usage list: "elementary-macete", "transportable-macete". <with style="linebreak"/>
+                </CMP>
+
+                <FMP>
+                    <om:OMOBJ>
+                        <om:OMBIND>
+                            <om:OMS cd="the-kernel-theory" name="forall"/>
+                            <om:OMBVAR>
+
+                                <om:OMATTR>
+                                    <om:OMATP>
+                                        <om:OMS cd="the-kernel-theory" name="sort"/>
+                                        <om:OMS cd="vector-spaces" name="vv"/>
+                                    </om:OMATP>
+                                    <om:OMV name="x"/>
+                                </om:OMATTR>
+
+                            </om:OMBVAR>
+
+                            <om:OMA>
+                                <om:OMS cd="the-kernel-theory" name="="/>
+                                <om:OMA>
+                                    <om:OMS cd="vector-spaces" name="**"/>
+                                    <om:OMS cd="fields" name="i_kk"/>
+                                    <om:OMV name="x"/>
+                                </om:OMA>
+                                <om:OMV name="x"/>
+                            </om:OMA>
+                        </om:OMBIND>
+
+                    </om:OMOBJ>
+                </FMP>
+
+            </assertion>
+
+
+        </omgroup>
+
+
+    </theory>
+
+</omdoc>

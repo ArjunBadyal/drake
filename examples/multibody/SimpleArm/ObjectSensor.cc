@@ -102,7 +102,9 @@ namespace drake {
 
                     //void ObjectSensor::CalcOutput(const Context<double> &context, Eigen::VectorBlock<VectorX<double>>* output) const
                       void SimpleArm::ObjectSensor::CalcOutput(const Context<double>& context, BasicVector<double>* output) const{
-
+                        //TODO:Force discrete behaviour when running in continous mode.
+                        /*const drake::systems::Context<double>& context2,
+                        ObjectSensor().DeclareDiscreteState(1);*/
                       const auto &depth = object_sensor_input_port().Eval<drake::geometry::QueryObject<double>>(context);
                       auto val = depth.inspector().GetAllGeometryIds();
                       auto d_gripper = depth.GetPoseInWorld(val[8]).GetAsMatrix34();

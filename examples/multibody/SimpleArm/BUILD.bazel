@@ -83,24 +83,12 @@ drake_cc_binary(
     ],
 )
 
+
 drake_cc_binary(
     name = "dmodel",
-    srcs = ["dmodel.cc"],
-    add_test_rule = 1,
-    deps = [
-            #":dmodel",
-            ":PlatformMapping",
-            ":populate_ball_plant",
-            "//common:add_text_logging_gflags",
-            "//common:find_resource",
-            "//geometry:drake_visualizer",
-            "//multibody/parsing",
-            "//multibody/plant",
-            "//systems/analysis:simulator",
-            "//systems/framework:diagram",
-            "//systems/primitives:constant_vector_source",
-            "@gflags",
-        ],
+    srcs = ["dmodel.c"],
+    visibility = ["//visibility:public"],
+    linkopts = ["-lpthread"]
 )
 
 drake_cc_library(

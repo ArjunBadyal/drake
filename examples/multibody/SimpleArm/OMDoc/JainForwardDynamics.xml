@@ -1,0 +1,22 @@
+<CDDefinition>
+    <name>l</name>
+    <role>application</role>
+    <Description>
+        This symbol represents the vector between reference frames x and y, where x and y are 3 dimensional vectors.
+    </Description>
+    <OMATTR>
+        <OMATP>
+            <OMA>
+            <OMS cd = "CLib/JainForwardDynamics" name = "l"/>
+            <OMV>x</OMV>
+            <OMV>y</OMV>
+            </OMA>
+        </OMATP>
+        <OMA>
+        </OMA>
+    </OMATTR>
+    <FMP?>
+
+    </FMP?>
+</CDDefinition>
+

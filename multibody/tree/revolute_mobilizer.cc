@@ -79,6 +79,8 @@ SpatialVelocity<T> RevoluteMobilizer<T>::CalcAcrossMobilizerSpatialVelocity(
     const systems::Context<T>&,
     const Eigen::Ref<const VectorX<T>>& v) const {
   DRAKE_ASSERT(v.size() == kNv);
+  //auto x = SpatialVelocity<T>(v[0] * axis_F_, Vector3<T>::Zero());
+  //drake::log()->info(v[0]);
   return SpatialVelocity<T>(v[0] * axis_F_, Vector3<T>::Zero());
 }
 

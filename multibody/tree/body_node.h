@@ -823,7 +823,6 @@ class BodyNode : public MultibodyElement<BodyNode, T, BodyNodeIndex> {
         frame_F.CalcRotationMatrixInBodyFrame(context);
     const math::RigidTransform<T> X_MB =
         frame_M.CalcPoseInBodyFrame(context).inverse();
-
     // Form the rotation matrix relating the world frame W and parent body P.
     const math::RotationMatrix<T>& R_WP = get_R_WP(pc);
 
@@ -849,7 +848,7 @@ class BodyNode : public MultibodyElement<BodyNode, T, BodyNodeIndex> {
       // V_PB_W = V_PFb_W + V_FMb_W + V_MB_W = V_FMb_W =
       //         = R_WF * V_FM.Shift(p_MoBo_F)
       H_PB_W->col(imob) = (R_WF * Himob_FM.Shift(p_MB_F)).get_coeffs();
-      drake::log()->info(Himob_FM.Shift(p_MB_F));
+      //drake::log()->info(v);
     }
   }
 
@@ -1622,7 +1621,6 @@ class BodyNode : public MultibodyElement<BodyNode, T, BodyNodeIndex> {
       const ArticulatedBodyInertiaCache<T>& abic) const {
     return abic.get_P_B_W(topology_.index);
   }
-
   // Mutable version of get_P_B_W().
   ArticulatedBodyInertia<T>& get_mutable_P_B_W(
       ArticulatedBodyInertiaCache<T>* abic) const {
@@ -1794,7 +1792,6 @@ class BodyNode : public MultibodyElement<BodyNode, T, BodyNodeIndex> {
     DRAKE_ASSERT(frame_F.body().index() == body_P.index());
     const Frame<T>& frame_M = get_mobilizer().outboard_frame();
     DRAKE_ASSERT(frame_M.body().index() == body_B.index());
-
     // Input (const):
     // - X_PF(qb_P)
     // - X_MB(qb_B)

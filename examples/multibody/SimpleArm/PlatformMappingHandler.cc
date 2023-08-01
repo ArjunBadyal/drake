@@ -45,7 +45,7 @@ void PMH::CalcOutput(const Context<double>& context,
   double distance = val[0];
   //drake::log()->info(distance);
 comm[1] = Operation(distance,distance, context.get_time());
-  //drake::log()->info(context.get_time() - t0);
+  //drake::log()->info(comm[1]);
 comm[0] = 0.0;
 comm[2] = 0.0;
 comm[3] = 0.0;

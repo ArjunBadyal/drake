@@ -1554,7 +1554,11 @@ void MultibodyTree<T>::CalcMassMatrix(const systems::Context<T>& context,
     for (BodyNodeIndex composite_node_index : body_node_levels_[depth]) {
       // Node corresponding to the composite body C.
       const BodyNode<T>& composite_node = *body_nodes_[composite_node_index];
+      //drake::log()->info("depth");
+      //drake::log()->info(depth);
+      //drake::log()->info(composite_node_index);
       const int cnv = composite_node.get_num_mobilizer_velocities();
+      drake::log()->info(cnv);
 
       if (cnv == 0) continue;  // Weld has no generalized coordinates, so skip.
 
@@ -1564,7 +1568,7 @@ void MultibodyTree<T>::CalcMassMatrix(const systems::Context<T>& context,
       // Across-mobilizer 6 x cnv hinge matrix, from C's parent Cp to C.
       Eigen::Map<const MatrixUpTo6<T>> H_CpC_W =
           composite_node.GetJacobianFromArray(H_PB_W_cache);
-
+      //drake::log()->info(H_PB_W_cache[1]);
       // The composite body algorithm considers the system at rest, when
       // generalized velocities are zero.
       // Now if we consider this node's generalized accelerations as the matrix
