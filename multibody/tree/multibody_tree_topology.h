@@ -469,6 +469,7 @@ class MultibodyTreeTopology {
   // MultibodyTree::Finalize() will always be one, not zero.
   int num_bodies() const { return static_cast<int>(bodies_.size()); }
 
+
   // Returns the number of physical frames in the multibody tree.
   int num_frames() const {
     return static_cast<int>(frames_.size());

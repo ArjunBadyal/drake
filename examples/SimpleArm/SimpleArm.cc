@@ -5,9 +5,6 @@
 
 #include <iostream>
 
-#include <chrono>
-#include <thread>
-
 
 #include "drake/common/drake_copyable.h"
 #include "drake/common/eigen_types.h"
@@ -81,7 +78,7 @@ bool LoopCond = true;
 
 
 
-DEFINE_double(target_realtime_rate, 0.3,
+DEFINE_double(target_realtime_rate, 1.0,
               "Desired rate relative to real time.  See documentation for "
               "Simulator::set_target_realtime_rate() for details.");
 
@@ -303,14 +300,11 @@ int do_main() {
   // Now the model is complete.
 
   SimpleArm.Finalize();
-
-
  // SimpleArm.set_penetration_allowance(FLAGS_penetration_allowance);
   // Sanity check on the availability of the optional source id before using it.
   DRAKE_DEMAND(SimpleArm.geometry_source_is_registered());
 
-//drake::log()->info(SimpleArm.get_actuation_input_port().get_name());
-
+//drake::log()->info(SimpleArm.get_actuation_input_port().size());
             /*auto Vel = builder.AddSystem<VelCmd<double>>();
             Vel->set_name("input trajectory");
 //builder.Connect(SimpleArm.get_output_port(0), InDyn->get_input_port_estimated_state());
@@ -344,21 +338,20 @@ int do_main() {
       diagram->CreateDefaultContext();
   diagram->SetDefaultContext(diagram_context.get());
   systems::Context<double>& SimpleArm_context = diagram->GetMutableSubsystemContext(SimpleArm, diagram_context.get());
-  //Run this to get info about the mbp port:
-  /*drake::log()->info("name");
-  drake::log()->info(SimpleArm.get_input_port(3).get_name());*/
+
 
 
     // Set initial state.
     ElbowJoint.set_angle(&SimpleArm_context, 0.0);
     WristJoint.set_angle(&SimpleArm_context, 0.0);
+
   systems::Simulator<double> simulator(*diagram, std::move(diagram_context));
   //lcm::Subscribe();
   simulator.set_publish_every_time_step(true) ;
   simulator.set_publish_at_initialization(true);
   simulator.set_target_realtime_rate(FLAGS_target_realtime_rate);
   simulator.Initialize();
-  simulator.AdvanceTo(8);
+  simulator.AdvanceTo(5);
    /* while(LoopCond) {
 
         std::cout << "Enter Operation:" << std::endl;
@@ -406,10 +399,6 @@ int do_main() {
 }  // namespace drake
 
 int main(int argc, char* argv[]) {
-  using std::chrono::system_clock;
-
-  std::this_thread::sleep_until(system_clock::now() + std::chrono::seconds(3));
-
   gflags::SetUsageMessage(
       "A simple robotic arm demo using Drake's MultibodyPlant,"
       "with SceneGraph visualization. "

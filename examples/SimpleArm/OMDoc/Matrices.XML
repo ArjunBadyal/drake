@@ -1,0 +1,18 @@
+<CDDefinition>
+    <name>matrix</name>
+    <Description>
+        This symbol represents the constructor function for a matrix of dimensions (n,m)
+    </Description>
+    <OMATTR>
+        <OMATP>
+            <OMS cd = "CLib" name = "matrix"/>
+            <OMI>n</OMI>
+            <OMI>m</OMI>
+        </OMATP>
+        <OMA>
+            <OMS cd = "Matrices" name = "matrix"/>
+            <OMV>n</OMV>
+            <OMV>m</OMV>
+        </OMA>
+    </OMATTR>
+</CDDefinition>

@@ -1,0 +1,37 @@
+<solution>
+    <acceleration>
+        <ForwardDynamics1>
+            <OMOBJ>
+                    <OMA>
+                        <OMS cd = "control_structure" name = "for"/>
+                        <OMV>i</OMV>
+                        <OMI>1</OMI>
+                        <OMV>n</OMV>
+                        <OMS cd = "Matrix Operations" name  = "MatrixVectorMultiply"/>
+                            <OMA>
+                                <OMS cd = "JainForwardDynamics" name  = "A"/>
+                                <OMA>
+                                    <OMS cd = "JainForwardDynamics" name = "l"/>
+                                </OMA>
+
+
+                            </OMA>
+                    </OMA>
+            </OMOBJ>
+        </ForwardDynamics1>
+    </acceleration>
+</solution>
+
+
+
+
+
+        <!--<output>
+            <ci type = "matrix">R</ci>
+        </output>
+<NewtonEulerInverseDynamicsJain>
+</NewtonEulerInverseDynamicsJain>
+<CholeskyDecomposition>
+
+</CholeskyDecomposition>
+</Algorithm>-->

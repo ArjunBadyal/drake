@@ -44,6 +44,7 @@ class PositionKinematicsCache {
     Allocate();
   }
 
+
   // Returns a const reference to pose `X_WB` of the body B (associated with
   // node @p body_node_index) as measured and expressed in the world frame W.
   // @param[in] body_node_index The unique index for the computational

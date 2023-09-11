@@ -1558,6 +1558,7 @@ void MultibodyTree<T>::CalcMassMatrix(const systems::Context<T>& context,
       //drake::log()->info(depth);
       //drake::log()->info(composite_node_index);
       const int cnv = composite_node.get_num_mobilizer_velocities();
+      //Run this to print the joint mobilities:
       drake::log()->info(cnv);
 
       if (cnv == 0) continue;  // Weld has no generalized coordinates, so skip.
