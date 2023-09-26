@@ -26,6 +26,17 @@ drake_cc_library(
 )
 
 drake_cc_library(
+    name = "PthreadLeafSystem",
+    srcs = ["PthreadLeafSystem.cc",],
+    hdrs = ["PthreadLeafSystem.h",],
+    deps = [
+        "//common:unused",
+        "//systems/framework",
+        "//geometry:scene_graph"
+    ],
+)
+
+drake_cc_library(
     name = "GoalSensor",
     srcs = ["GoalSensor.cc",],
     hdrs = ["GoalSensor.h",],

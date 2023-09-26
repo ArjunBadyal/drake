@@ -14,46 +14,13 @@ load(
 load("//tools/lint:lint.bzl", "add_lint_tests")
 
 
-drake_cc_library(
-    name = "ObjectSensor",
-    srcs = ["ObjectSensor.cc",],
-    hdrs = ["ObjectSensor.h",],
-    deps = [
-        "//common:unused",
-        "//systems/framework",
-        "//geometry:scene_graph"
-    ],
-)
-
-drake_cc_library(
-    name = "GoalSensor",
-    srcs = ["GoalSensor.cc",],
-    hdrs = ["GoalSensor.h",],
-    deps = [
-        "//common:unused",
-        "//systems/framework",
-        "//geometry:scene_graph"
-    ],
-)
-
-drake_cc_library(
-    name = "PlatformMappinHandler",
-    srcs = ["PlatformMappingHandler.cc",],
-    hdrs = ["PlatformMappingHandler.h",],
-    deps = [
-        "//common:unused",
-        "//systems/framework",
-        ":PlatformMapping"
-    ],
-)
-
 
 
 drake_cc_binary(
-    name = "SimpleArm",
-    srcs = ["SimpleArm.cc"],
+    name = "3RManipulator",
+    srcs = ["3R.cc"],
     add_test_rule = 1,
-    data = ["SimpleArm.sdf", "brick.sdf", "brick2.sdf"],
+    data = ["3R.sdf"],
    # test_rule_args = [
      #   "--simulation_time=0.1",
       #  "--target_realtime_rate=0.0",],
@@ -61,11 +28,6 @@ drake_cc_binary(
         #":dmodel",
         "//common:essential",
         "//lcmtypes:drake_signal",
-        ":PlatformMapping",
-        ":PlatformMappinHandler",
-        ":ObjectSensor",
-        ":GoalSensor",
-        ":SimpleLCM",
         "//common:add_text_logging_gflags",
         "//common:find_resource",
         "//geometry:drake_visualizer",
@@ -82,23 +44,6 @@ drake_cc_binary(
         "@gflags",
     ],
 )
-
-
-drake_cc_binary(
-    name = "dmodel",
-    srcs = ["dmodel.c"],
-    visibility = ["//visibility:public"],
-    linkopts = ["-lpthread"]
-)
-
-drake_cc_library(
-    name = "PlatformMapping",
-    srcs = ["PlatformMapping.c"],
-    hdrs = ["PlatformMapping.h"],
-    visibility = ["//visibility:public"],
-    deps = ["//systems/framework:context"]
-)
-
 
 
 

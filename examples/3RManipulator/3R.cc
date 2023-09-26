@@ -25,18 +25,9 @@
 #include "drake/systems/framework/diagram_builder.h"
 #include "drake/systems/framework/leaf_system.h"
 #include "drake/multibody/plant/multibody_plant.h"
-//#include "drake/systems/primitives/constant_vector_source.h"
-//#include "drake/systems/primitives/trajectory_source.h"
 
-//#include "drake/examples/multibody/SimpleArm/SimpleLCM.h"
-#include "drake/examples/multibody/SimpleArm/ObjectSensor.h"
-#include "PlatformMappingHandler.h"
-
-//#include "drake/systems/controllers/inverse_dynamics_controller.h"
-#include "drake/systems/controllers/inverse_dynamics.h"
 #include "drake/multibody/tree/uniform_gravity_field_element.h"
 #include <iostream>
-#include "drake/geometry/query_object.h"
 
 
 
@@ -93,146 +84,6 @@ DEFINE_double(time_step, 0.0001,
             "discrete updates and period equal to this time_step. "
             "If 0, the plant is modeled as a continuous system.");
 
-/*DEFINE_double(penetration_allowance, 1.0e-2,
-              "Penetration allowance. [m]. "
-              "See MultibodyPlant::set_penetration_allowance().");*/
-
-
-
-        /*class VelCmd: public LeafSystem<double>{
-
-        public:
-
-        VelCmd(const MultibodyPlant<double>* plant);
-
-            const InputPort<double>& get_input_port_estimated_state() const {
-                return this->get_input_port(input_port_index_state_);
-            }
-
-            //Calculates the output velocity
-            const OutputPort<double>& get_output_port_velocity() const {
-                return this->get_output_port(output_port_index_velocity_);
-            }
-
-        private:
-            void CalcOutputVelocity(const Context<double>& context,
-                                    BasicVector<double>* velocity) const;
-
-            // Methods for updating cache entries.
-            void SetMultibodyContext(const Context<double>&, Context<double>*) const;
-
-
-            //Multibody plant declaration
-            const MultibodyPlant<double>* const multibody_plant_;
-
-            // This is the calculator method for the output port.
-            int input_port_index_state_{0};
-
-            int output_port_index_velocity_{0};
-            const int v_dim_{0};
-            const int q_dim_{0};
-            drake::systems::CacheIndex multibody_plant_context_cache_index_;
-
-        };
-
-        VelCmd::VelCmd(const MultibodyPlant<double>* plant): multibody_plant_(plant),
-                                                             v_dim_(plant->num_velocities()) {
-
-            DRAKE_DEMAND(plant->is_finalized());
-            input_port_index_state_ =
-                    this->DeclareInputPort(systems::kUseDefaultName, systems::kVectorValued, q_dim_ + v_dim_)
-                            .get_index();
-            output_port_index_velocity_ =
-                    this->DeclareVectorOutputPort("OutputVel", 2,
-                                                  &VelCmd::CalcOutputVelocity)
-                            .get_index();
-
-            auto multibody_plant_context = multibody_plant_->CreateDefaultContext();
-            multibody_plant_context_cache_index_ =
-                    this->DeclareCacheEntry(
-                                    "multibody_plant_context_cache",
-                                    *multibody_plant_context,
-                                    &VelCmd::SetMultibodyContext,
-                                    {this->input_port_ticket(
-                                            get_input_port_estimated_state().get_index())})
-                            .cache_index();
-
-        }
-
-        void VelCmd::SetMultibodyContext(
-                const Context<double>& context,
-                Context<double>* multibody_plant_context) const {
-            const VectorX<double>& x = get_input_port_estimated_state().Eval(context);
-                // Set the plant positions and velocities.
-                multibody_plant_->SetPositionsAndVelocities(multibody_plant_context, x);
-
-        }
-
-        void VelCmd::CalcOutputVelocity(const Context<double>& context, BasicVector<double>* output) const {
-            const auto& multibody_plant_context =
-                    this->get_cache_entry(multibody_plant_context_cache_index_).Eval<Context<double>>(context);
-
-
-            Eigen::Vector2d other;
-            other << 10000*Operation.PrePlace(context.get_time()),multibody_plant_context.get_time() * 1000 ;
-            drake::log()->info(other);
-            output ->get_mutable_value() = other;
-
-        }*/
-/*
-  */
-/*
- class SingleOutputVectorSource : public LeafSystem<double>
-    {
-
-    };
-
-
-
-    template<typename T>
-    class VelCmd final : public systems::SingleOutputVectorSource<T> {
-    public:
-        VelCmd();
-
-        ~VelCmd() final = default;
-
-    private:
-        void DoCalcVectorOutput(
-                const Context<T> &context,
-                Eigen::VectorBlock<VectorX<T>>* output) const final;
-
-    };
-
-
-    template<typename T>
-    VelCmd<T>::VelCmd():systems::SingleOutputVectorSource<T>(2) {
-
-    }
-
-    template<typename T>
-    void
-    VelCmd<T>::DoCalcVectorOutput(const Context<T> &context, Eigen::VectorBlock<VectorX<T>>* output) const  {
-
-        Eigen::Vector2d command;
-        command << Operation(context.get_time() - t0), 0;
-        if(input == "PrePick") {
-            command << PrePick(context.get_time() - t0), 0;
-        }
-        else if(input == "PrePlace"){
-            command << PrePlace(context.get_time() - t0), 0;
-        }
-        else if(input == "Return") {
-            command << Ret(context.get_time() - t0), 0;
-        }
-        //drake::log()->info(context.get_time() - t0);
-        output->segment(0, 2) = command;
-    }
-
-    template class VelCmd<double>;
-
-*/
-
-
 
 int do_main() {
 
@@ -250,9 +101,6 @@ int do_main() {
 
 
 
-  auto ObjectSensorSystem = builder.AddSystem<ObjectSensor>();
-
-  auto PMHSystem = builder.AddSystem<PMH>();
 
   //TODO PMHSystem.control_channels = (control_Channels*)malloc(sizeof(control_Channels));
   //
@@ -260,22 +108,18 @@ int do_main() {
 
   // Make and add the SimpleArm model.
   const std::string body1 = FindResourceOrThrow(
-      "drake/examples/multibody/SimpleArm/SimpleArm.sdf");
+      "drake/examples/3RManipulator/3R.sdf");
 
-  const std::string body2 = FindResourceOrThrow(
-          "drake/examples/multibody/SimpleArm/brick.sdf");
-  const std::string body3 = FindResourceOrThrow(
-      "drake/examples/multibody/SimpleArm/brick2.sdf");
+
 
   Parser(&SimpleArm, &scene_graph).AddModelFromFile(body1); //adds model to the scene graph and the multibody plant from SDF file
-  Parser(&SimpleArm, &scene_graph).AddModelFromFile(body2);
-  Parser(&SimpleArm, &scene_graph).AddModelFromFile(body3);
+
 
     //Assign joint model instances to variables for ease of access
-    const RevoluteJoint<double>& ElbowJoint =
-            SimpleArm.GetJointByName<RevoluteJoint>("7-ElbowJoint");
-    const RevoluteJoint<double>& WristJoint =
-            SimpleArm.GetJointByName<RevoluteJoint>("6-WristJoint");
+    const RevoluteJoint<double>& Joint1 =
+            SimpleArm.GetJointByName<RevoluteJoint>("joint1");
+    /*const RevoluteJoint<double>& WristJoint =
+            SimpleArm.GetJointByName<RevoluteJoint>("6-WristJoint");*/
 
     // Add model of the ground.
     const double static_friction = 1.0;
@@ -292,7 +136,7 @@ int do_main() {
                                     "GroundCollisionGeometry", ground_friction);*/
 
    //Weld base to world frame
-   const auto& root_link = SimpleArm.GetBodyByName("1-BaseLink");
+   const auto& root_link = SimpleArm.GetBodyByName("base_link");
             SimpleArm.AddJoint<drake::multibody::WeldJoint>("weld_base", SimpleArm.world_body(), std::nullopt,
                                     root_link, std::nullopt,
                                 math::RigidTransform<double>::Identity());
@@ -316,7 +160,7 @@ int do_main() {
 //builder.Connect(SimpleArm.get_output_port(0), InDyn->get_input_port_estimated_state());
             builder.Connect(Vel->get_output_port(),SimpleArm.get_input_port(3)); //Works! ^_^*/
 
-  builder.Connect(PMHSystem -> get_output_port(), SimpleArm.get_input_port(3));
+  //builder.Connect(PMHSystem -> get_output_port(), SimpleArm.get_input_port(3));
 
   //Now connect input port from the multibody plant to output port of the scene graph
   builder.Connect(
@@ -329,10 +173,7 @@ int do_main() {
     // adds visualizer to builder and connects it the output of the scene graph
   geometry::DrakeVisualizerd::AddToBuilder(&builder, scene_graph);
 
-  //Connect Scene graph to ObjectSensorSystem
-  builder.Connect(scene_graph.get_query_output_port(), ObjectSensorSystem->object_sensor_input_port());
 
-  builder.Connect(ObjectSensorSystem ->get_output_port(), PMHSystem->get_input_port());
 
 
 
@@ -350,8 +191,8 @@ int do_main() {
 
 
     // Set initial state.
-    ElbowJoint.set_angle(&SimpleArm_context, 0.0);
-    WristJoint.set_angle(&SimpleArm_context, 0.0);
+    Joint1.set_angle(&SimpleArm_context, 0.0);
+    //WristJoint.set_angle(&SimpleArm_context, 0.0);
   systems::Simulator<double> simulator(*diagram, std::move(diagram_context));
   //lcm::Subscribe();
   simulator.set_publish_every_time_step(true) ;
